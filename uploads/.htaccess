@@ -1,0 +1,20 @@
+# Uploads are user-supplied files — scanned government IDs live under
+# borrower_ids/, so this folder must never be browsable.
+Options -Indexes
+
+# Belt and braces: even though bpis_store_upload() restricts extensions to
+# jpg/jpeg/png/webp/pdf, never let anything here be executed as a script.
+<FilesMatch "\.(php|phar|phtml|php[0-9]|cgi|pl|py|shtml)$">
+    Require all denied
+</FilesMatch>
+
+# Only applies under mod_php; guarded so a FastCGI/PHP-FPM setup does not 500.
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php5.c>
+    php_flag engine off
+</IfModule>

@@ -1,0 +1,31 @@
+# Uploaded files — never commit these.
+#
+# uploads/borrower_ids/ holds front/back scans of residents' government-issued
+# IDs submitted through the borrow form; the other folders hold profile photos,
+# acquisition receipts and asset images. All of it is personal data belonging to
+# real people and has no business in version control.
+#
+# The folder structure is kept via .gitkeep so a fresh clone still has somewhere
+# to write to, and uploads/.htaccess ships so the directory stays non-browsable
+# and non-executable on any deployment.
+uploads/**
+!uploads/.htaccess
+!uploads/**/
+!uploads/**/.gitkeep
+
+# Local configuration that carries credentials.
+config/oauth_config.php
+config/mail_config.local.php
+
+# Developer scratch output.
+tools/feed_out.txt
+*.bak
+*.orig
+*.log
+
+# OS / editor noise.
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/

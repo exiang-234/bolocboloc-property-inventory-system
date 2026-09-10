@@ -1,0 +1,3410 @@
+/**
+ * BPIS Complete Dark Theme
+ * Barangay Bolocboloc Property Inventory System
+ * Scoped strictly to dark mode states: html[data-theme="dark"], html.dark, body.dark-mode
+ */
+
+/* ==========================================================================
+   0. Semantic Theme Tokens (both themes)
+   --------------------------------------------------------------------------
+   One source of truth for text, surface, border and accent colours. Components
+   should reference these rather than hardcoding hex values, so a colour only
+   ever has to be corrected in one place.
+
+   Light values live on :root; the dark block below re-points the same names.
+   The --stat-* colours are the four dashboard card numbers, which need
+   different lightness per theme to stay legible on their card background.
+   ========================================================================== */
+:root {
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --text-inverse: #f8fafc;
+
+    --bg-primary: #f8fafc;      /* page canvas */
+    --bg-secondary: #ffffff;    /* cards, panels, table surfaces */
+    --bg-elevated: #f1f5f9;     /* table headers, inputs, wells */
+    --bg-hover: #f1f5f9;
+
+    --border-color: #e2e8f0;
+    --border-subtle: #eef2f7;
+
+    --accent-color: #1d4ed8;
+    --accent-hover: #1e40af;
+
+    --stat-blue: #1d4ed8;
+    --stat-yellow: #d97706;
+    --stat-green: #059669;
+    --stat-red: #dc2626;
+
+    /* Status / meaning colours, for text on the page surface. */
+    --danger-color: #dc2626;
+    --success-color: #047857;
+    --warning-color: #b45309;
+    --info-color: #1d4ed8;
+}
+
+html[data-theme="dark"],
+html.dark,
+body.dark-mode {
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-inverse: #0f172a;
+
+    --bg-primary: #0b1329;
+    --bg-secondary: #131d36;
+    --bg-elevated: #1a2747;
+    --bg-hover: #1f3056;
+
+    --border-color: #223354;
+    --border-subtle: #192640;
+
+    --accent-color: #60a5fa;
+    --accent-hover: #93c5fd;
+
+    /* Brightened so they clear 4.5:1 on the dark card surface. */
+    --stat-blue: #60a5fa;
+    --stat-yellow: #fbbf24;
+    --stat-green: #34d399;
+    --stat-red: #f87171;
+
+    --danger-color: #f87171;
+    --success-color: #4ade80;
+    --warning-color: #fbbf24;
+    --info-color: #60a5fa;
+}
+
+/* ==========================================================================
+   1. Design Tokens & Root Variables for Dark Theme
+   ========================================================================== */
+html[data-theme="dark"],
+html.dark,
+body.dark-mode {
+    --bpis-dark-bg: #0b1329;
+    --bpis-dark-surface: #131d36;
+    --bpis-dark-surface-elevated: #1a2747;
+    --bpis-dark-surface-hover: #1f3056;
+    --bpis-dark-border: #223354;
+    --bpis-dark-border-subtle: #192640;
+    --bpis-dark-border-focus: #3b82f6;
+    --bpis-dark-text-primary: #f8fafc;
+    --bpis-dark-text-secondary: #cbd5e1;
+    --bpis-dark-text-muted: #94a3b8;
+    --bpis-dark-text-inverse: #0f172a;
+    --bpis-dark-accent: #3b82f6;
+    --bpis-dark-accent-hover: #2563eb;
+    --bpis-dark-accent-glow: rgba(59, 130, 246, 0.25);
+    --bpis-dark-sidebar-bg: linear-gradient(180deg, #070e22 0%, #0d1a38 50%, #091328 100%);
+    --bpis-dark-header-bg: linear-gradient(135deg, #0b152d 0%, #112349 50%, #0d1c3c 100%);
+    --bpis-dark-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    --bpis-dark-modal-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+    color-scheme: dark;
+}
+
+/* ==========================================================================
+   2. Theme Toggle Buttons & Switch UI (Available in both light and dark)
+   ========================================================================== */
+.bpis-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.bpis-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bpis-theme-toggle:active {
+    transform: translateY(0);
+}
+
+.bpis-theme-toggle i {
+    font-size: 16px;
+    transition: transform 0.3s ease, color 0.2s ease;
+}
+
+.bpis-theme-toggle:hover i {
+    transform: rotate(18deg) scale(1.1);
+}
+
+.bpis-theme-icon-sun {
+    color: #facc15 !important;
+}
+
+.bpis-theme-icon-moon {
+    color: #e0e7ff !important;
+}
+
+/* Dropdown Theme Switch Row */
+.bpis-theme-toggle-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+}
+
+.theme-switch-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-switch-track {
+    position: relative;
+    width: 38px;
+    height: 20px;
+    border-radius: 999px;
+    background: #cbd5e1;
+    transition: background-color 0.25s ease;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.theme-switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-switch-track.is-active {
+    background: #3b82f6;
+}
+
+.theme-switch-track.is-active .theme-switch-thumb {
+    transform: translateX(18px);
+}
+
+/* Floating theme toggle for Login / Register / Borrower pages */
+.borrow-theme-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    color: #1e293b;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.borrow-theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+    border-color: #93c5fd;
+    color: #2563eb;
+}
+
+html[data-theme="dark"] .borrow-theme-toggle,
+html.dark .borrow-theme-toggle {
+    background: rgba(19, 29, 54, 0.85);
+    border-color: #bfdbfe;
+    color: #facc15;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] .borrow-theme-toggle:hover,
+html.dark .borrow-theme-toggle:hover {
+    background: rgba(26, 39, 71, 0.95);
+    border-color: #3b82f6;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
+}
+
+/* ==========================================================================
+   3. Base Layout, Shell & Body in Dark Mode — FIX WHITE GUTTERS (Image2)
+   ========================================================================== */
+html[data-theme="dark"],
+html.dark,
+html[data-theme="dark"] body,
+html.dark body,
+body.dark-mode,
+body.dark {
+    background-color: var(--bpis-dark-bg) !important;
+    background: var(--bpis-dark-bg) !important;
+    color: var(--bpis-dark-text-primary) !important;
+}
+/* Ensure html itself is dark — prevents white outer gutters behind rounded sidebar */
+html[data-theme="dark"],
+html.dark {
+    background-color: var(--bpis-dark-bg) !important;
+}
+html[data-theme="dark"] body::before,
+html.dark body::before {
+    content: none !important;
+}
+
+html[data-theme="dark"] .main-content,
+html.dark .main-content {
+    background-color: var(--bpis-dark-bg) !important;
+    background: var(--bpis-dark-bg) !important;
+}
+
+/* Sidebar styling in Dark Mode */
+html[data-theme="dark"] .sidebar,
+html.dark .sidebar {
+    background: var(--bpis-dark-sidebar-bg) !important;
+    border-right: 1px solid var(--bpis-dark-border) !important;
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.5) !important;
+}
+
+html[data-theme="dark"] .sidebar h2,
+html.dark .sidebar h2 {
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .sidebar-bottom,
+html.dark .sidebar-bottom {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .nav-item,
+html.dark .nav-item {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e2e8f0 !important;
+}
+
+html[data-theme="dark"] .nav-item:hover,
+html.dark .nav-item:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+html[data-theme="dark"] .nav-item.active,
+html.dark .nav-item.active {
+    background: linear-gradient(90deg, #1d4ed8, #2563eb) !important;
+    border-color: rgba(96, 165, 250, 0.4) !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4) !important;
+}
+
+/* Header styling in Dark Mode */
+html[data-theme="dark"] .header,
+html.dark .header {
+    background: var(--bpis-dark-header-bg) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+html[data-theme="dark"] .header h1,
+html.dark .header h1 {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .header p,
+html.dark .header p {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .mobile-nav-toggle,
+html.dark .mobile-nav-toggle {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+/* Main Content Wrapper / Scroll Areas */
+html[data-theme="dark"] .flex-grow.bg-white,
+html.dark .flex-grow.bg-white {
+    background-color: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Scrollbars */
+html[data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-track,
+html.dark .custom-scrollbar::-webkit-scrollbar-track {
+    background: #0d152a !important;
+}
+
+html[data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb,
+html.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #253759 !important;
+    border-radius: 999px;
+}
+
+html[data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb:hover,
+html.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #3b5280 !important;
+}
+
+/* ==========================================================================
+   4. Stat Cards & Summary Sections
+   ========================================================================== */
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .cards-container > .card,
+html.dark .card,
+html.dark .cards-container > .card {
+    background: var(--bpis-dark-surface) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+html[data-theme="dark"] .card p,
+html[data-theme="dark"] .cards-container > .card p,
+html.dark .card p,
+html.dark .cards-container > .card p {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .card .card-number,
+html[data-theme="dark"] .cards-container > .card .card-number,
+html.dark .card .card-number,
+html.dark .cards-container > .card .card-number {
+    color: #059669 !important;
+}
+
+/* Specific Card Themes */
+html[data-theme="dark"] .card.card-blue,
+html[data-theme="dark"] .cards-container > .card.card-blue,
+html.dark .card.card-blue,
+html.dark .cards-container > .card.card-blue {
+    background: linear-gradient(160deg, #131d36 0%, #16264d 100%) !important;
+    border-color: rgba(96, 165, 250, 0.35) !important;
+}
+html[data-theme="dark"] .card.card-blue .card-number,
+html[data-theme="dark"] .cards-container > .card.card-blue .card-number,
+html.dark .card.card-blue .card-number,
+html.dark .cards-container > .card.card-blue .card-number {
+    color: #60a5fa !important;
+}
+html[data-theme="dark"] .card.card-yellow,
+html[data-theme="dark"] .cards-container > .card.card-yellow,
+html.dark .card.card-yellow,
+html.dark .cards-container > .card.card-yellow {
+    background: linear-gradient(160deg, #131d36 0%, #2a2312 100%) !important;
+    border-color: rgba(251, 191, 36, 0.35) !important;
+}
+html[data-theme="dark"] .card.card-yellow .card-number,
+html[data-theme="dark"] .cards-container > .card.card-yellow .card-number,
+html.dark .card.card-yellow .card-number,
+html.dark .cards-container > .card.card-yellow .card-number {
+    color: #d97706 !important;
+}
+html[data-theme="dark"] .card.card-green,
+html[data-theme="dark"] .cards-container > .card.card-green,
+html.dark .card.card-green,
+html.dark .cards-container > .card.card-green {
+    background: linear-gradient(160deg, #131d36 0%, #102d24 100%) !important;
+    border-color: rgba(52, 211, 153, 0.35) !important;
+}
+html[data-theme="dark"] .card.card-green .card-number,
+html[data-theme="dark"] .cards-container > .card.card-green .card-number,
+html.dark .card.card-green .card-number,
+html.dark .cards-container > .card.card-green .card-number {
+    color: #059669 !important;
+}
+html[data-theme="dark"] .card.card-red,
+html[data-theme="dark"] .cards-container > .card.card-red,
+html.dark .card.card-red,
+html.dark .cards-container > .card.card-red {
+    background: linear-gradient(160deg, #131d36 0%, #35151c 100%) !important;
+    border-color: rgba(248, 113, 113, 0.35) !important;
+}
+html[data-theme="dark"] .card.card-red .card-number,
+html[data-theme="dark"] .cards-container > .card.card-red .card-number,
+html.dark .card.card-red .card-number,
+html.dark .cards-container > .card.card-red .card-number {
+    color: #f87171 !important;
+}
+
+/* Glass summary row */
+html[data-theme="dark"] .glass-card,
+html.dark .glass-card {
+    background: rgba(19, 29, 54, 0.8) !important;
+    border-color: var(--bpis-dark-border) !important;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+html[data-theme="dark"] .glass-card-label,
+html.dark .glass-card-label {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .glass-card-value,
+html.dark .glass-card-value {
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .glass-card-value .glass-card-icon,
+html.dark .glass-card-value .glass-card-icon {
+    background: rgba(59, 130, 246, 0.2) !important;
+    color: #60a5fa !important;
+}
+
+html[data-theme="dark"] .glass-card-fixed .glass-card-icon,
+html.dark .glass-card-fixed .glass-card-icon {
+    background: rgba(148, 163, 184, 0.15) !important;
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .glass-card-movable .glass-card-icon,
+html.dark .glass-card-movable .glass-card-icon {
+    background: rgba(16, 185, 129, 0.2) !important;
+    color: #34d399 !important;
+}
+
+html[data-theme="dark"] .glass-card-updated .glass-card-icon,
+html.dark .glass-card-updated .glass-card-icon {
+    background: rgba(245, 158, 11, 0.2) !important;
+    color: #fbbf24 !important;
+}
+
+/* ==========================================================================
+   5. Tables & Date Range Filter Bar in Dark Mode
+   ========================================================================== */
+html[data-theme="dark"] .table-section,
+html.dark .table-section {
+    background-color: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+html[data-theme="dark"] .table-section h3,
+html[data-theme="dark"] .table-section h4,
+html.dark .table-section h3,
+html.dark .table-section h4 {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] table,
+html.dark table {
+    border-color: var(--bpis-dark-border) !important;
+    color: #e2e8f0 !important;
+}
+
+html[data-theme="dark"] table thead,
+html[data-theme="dark"] table thead tr,
+html.dark table thead,
+html.dark table thead tr {
+    background-color: var(--bpis-dark-surface-elevated) !important;
+}
+
+html[data-theme="dark"] table thead th,
+html[data-theme="dark"] .table-section th,
+html[data-theme="dark"] th,
+html.dark table thead th,
+html.dark .table-section th,
+html.dark th {
+    background-color: var(--bpis-dark-surface-elevated) !important;
+    color: #94a3b8 !important;
+    border-bottom: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] table tbody tr,
+html.dark table tbody tr {
+    background-color: transparent !important;
+    transition: background-color 0.15s ease;
+}
+
+html[data-theme="dark"] table tbody tr:nth-child(even),
+html.dark table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+html[data-theme="dark"] table tbody tr:hover,
+html.dark table tbody tr:hover {
+    background-color: var(--bpis-dark-surface-hover) !important;
+}
+
+html[data-theme="dark"] table tbody td,
+html[data-theme="dark"] .table-section td,
+html[data-theme="dark"] td,
+html.dark table tbody td,
+html.dark .table-section td,
+html.dark td {
+    color: #cbd5e1 !important;
+    border-bottom: 1px solid var(--bpis-dark-border) !important;
+    border-top: none !important;
+}
+
+html[data-theme="dark"] .borrower-name,
+html.dark .borrower-name {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .view-all-link,
+html.dark .view-all-link {
+    color: #60a5fa !important;
+}
+
+html[data-theme="dark"] .view-all-link:hover,
+html.dark .view-all-link:hover {
+    color: #93c5fd !important;
+    text-decoration: underline;
+}
+
+/* Status text badges */
+html[data-theme="dark"] .status-pending,
+html.dark .status-pending {
+    color: #fbbf24 !important;
+    background: rgba(245, 158, 11, 0.15) !important;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+html[data-theme="dark"] .status-approved,
+html.dark .status-approved {
+    color: #34d399 !important;
+    background: rgba(16, 185, 129, 0.15) !important;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+html[data-theme="dark"] .status-received,
+html.dark .status-received {
+    color: #60a5fa !important;
+    background: rgba(59, 130, 246, 0.15) !important;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+html[data-theme="dark"] .status-overdue,
+html.dark .status-overdue {
+    color: #f87171 !important;
+    background: rgba(239, 68, 68, 0.15) !important;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Date filter bar */
+html[data-theme="dark"] .bpis-date-filter-bar,
+html.dark .bpis-date-filter-bar {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .bpis-date-filter-bar .bpis-date-filter-label,
+html[data-theme="dark"] .bpis-date-filter-bar label,
+html.dark .bpis-date-filter-bar .bpis-date-filter-label,
+html.dark .bpis-date-filter-bar label {
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .bpis-date-filter-bar input[type="date"],
+html.dark .bpis-date-filter-bar input[type="date"] {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .bpis-date-filter-bar input[type="date"]::-webkit-calendar-picker-indicator,
+html.dark .bpis-date-filter-bar input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+html[data-theme="dark"] .bpis-date-clear-btn,
+html.dark .bpis-date-clear-btn {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .bpis-date-clear-btn:hover,
+html.dark .bpis-date-clear-btn:hover {
+    background: var(--bpis-dark-surface-elevated) !important;
+    color: #ffffff !important;
+}
+
+/* Mobile date picker modal */
+html[data-theme="dark"] .bpis-mobile-date-picker-modal,
+html.dark .bpis-mobile-date-picker-modal {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+    box-shadow: var(--bpis-dark-modal-shadow) !important;
+}
+
+/* ==========================================================================
+   6. Form Controls, Inputs & Dropdowns
+   ========================================================================== */
+html[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+html.dark select,
+html.dark textarea {
+    background-color: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder,
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+    color: #64748b !important;
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus,
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus {
+    border-color: var(--bpis-dark-accent) !important;
+    box-shadow: 0 0 0 3px var(--bpis-dark-accent-glow) !important;
+    outline: none !important;
+}
+
+html[data-theme="dark"] select option,
+html.dark select option {
+    background-color: var(--bpis-dark-surface) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] label,
+html.dark label {
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .search-container input,
+html[data-theme="dark"] #searchInput,
+html[data-theme="dark"] .filter-select,
+html.dark .search-container input,
+html.dark #searchInput,
+html.dark .filter-select {
+    background-color: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+/* Nav tabs */
+html[data-theme="dark"] .secretary-nav-tabs,
+html.dark .secretary-nav-tabs {
+    border-bottom-color: var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .secretary-nav-tabs .nav-link,
+html.dark .secretary-nav-tabs .nav-link {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .secretary-nav-tabs .nav-link.active,
+html.dark .secretary-nav-tabs .nav-link.active {
+    color: #60a5fa !important;
+    border-bottom-color: #60a5fa !important;
+}
+
+html[data-theme="dark"] .secretary-nav-tabs .nav-link:hover,
+html.dark .secretary-nav-tabs .nav-link:hover {
+    color: #93c5fd !important;
+}
+
+/* ==========================================================================
+   7. Buttons
+   ========================================================================== */
+html[data-theme="dark"] .asset-btn-secondary,
+html.dark .asset-btn-secondary {
+    background-color: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #e2e8f0 !important;
+}
+
+html[data-theme="dark"] .asset-btn-secondary:hover,
+html.dark .asset-btn-secondary:hover {
+    background-color: var(--bpis-dark-surface-hover) !important;
+    color: #ffffff !important;
+    border-color: #3b82f6 !important;
+}
+
+/* ==========================================================================
+   8. Profile Dropdown & Notifications Panel
+   ========================================================================== */
+html[data-theme="dark"] .profile-dropdown,
+html[data-theme="dark"] .header-icons .profile-dropdown,
+html.dark .profile-dropdown,
+html.dark .header-icons .profile-dropdown {
+    background-color: var(--bpis-dark-surface) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    box-shadow: var(--bpis-dark-modal-shadow) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .header-icons .profile-dropdown::before,
+html.dark .header-icons .profile-dropdown::before {
+    background-color: var(--bpis-dark-surface) !important;
+    border-left-color: var(--bpis-dark-border) !important;
+    border-top-color: var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .bpis-profile-dropdown-head,
+html[data-theme="dark"] .header-icons .bpis-profile-dropdown-head,
+html.dark .bpis-profile-dropdown-head,
+html.dark .header-icons .bpis-profile-dropdown-head {
+    background: linear-gradient(135deg, var(--bpis-dark-surface-elevated) 0%, #172554 100%) !important;
+    border-bottom: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .bpis-profile-dropdown-name,
+html[data-theme="dark"] .header-icons .bpis-profile-dropdown-name,
+html.dark .bpis-profile-dropdown-name,
+html.dark .header-icons .bpis-profile-dropdown-name {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .bpis-profile-dropdown-item,
+html[data-theme="dark"] .header-icons .bpis-profile-dropdown-item,
+html.dark .bpis-profile-dropdown-item,
+html.dark .header-icons .bpis-profile-dropdown-item {
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .bpis-profile-dropdown-item:hover,
+html[data-theme="dark"] .header-icons .bpis-profile-dropdown-item:hover,
+html.dark .bpis-profile-dropdown-item:hover,
+html.dark .header-icons .bpis-profile-dropdown-item:hover {
+    background-color: var(--bpis-dark-surface-elevated) !important;
+    color: #60a5fa !important;
+}
+
+html[data-theme="dark"] .bpis-profile-dropdown-item i,
+html.dark .bpis-profile-dropdown-item i {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .bpis-profile-dropdown-item:hover i,
+html.dark .bpis-profile-dropdown-item:hover i {
+    color: #60a5fa !important;
+}
+
+html[data-theme="dark"] .bpis-profile-dropdown-signout,
+html[data-theme="dark"] .header-icons .bpis-profile-dropdown-signout,
+html.dark .bpis-profile-dropdown-signout,
+html.dark .header-icons .bpis-profile-dropdown-signout {
+    color: #f87171 !important;
+    border-top: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .bpis-profile-dropdown-signout:hover,
+html[data-theme="dark"] .header-icons .bpis-profile-dropdown-signout:hover,
+html.dark .bpis-profile-dropdown-signout:hover,
+html.dark .header-icons .bpis-profile-dropdown-signout:hover {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    color: #ef4444 !important;
+}
+
+/* Notifications Panel */
+html[data-theme="dark"] .bpis-notif-panel,
+html.dark .bpis-notif-panel {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    box-shadow: var(--bpis-dark-modal-shadow) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .notif-header-bar,
+html.dark .notif-header-bar {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-bottom: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .notif-mark-all-read,
+html.dark .notif-mark-all-read {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .notif-mark-all-read:hover,
+html.dark .notif-mark-all-read:hover {
+    background: var(--bpis-dark-surface-hover) !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .notif-item,
+html.dark .notif-item {
+    background-color: var(--bpis-dark-surface) !important;
+    border-bottom: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .notif-item--unread,
+html.dark .notif-item--unread {
+    background-color: var(--bpis-dark-surface) !important;
+}
+
+html[data-theme="dark"] .notif-item:hover,
+html.dark .notif-item:hover {
+    background-color: var(--bpis-dark-surface-elevated) !important;
+}
+
+html[data-theme="dark"] .notif-title,
+html.dark .notif-title {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .notif-message,
+html.dark .notif-message {
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .notif-time,
+html.dark .notif-time {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .notif-toggle-read,
+html.dark .notif-toggle-read {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .notif-toggle-read:hover,
+html.dark .notif-toggle-read:hover {
+    background: var(--bpis-dark-surface-hover) !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .notif-rel-chip,
+html.dark .notif-rel-chip {
+    background: rgba(59, 130, 246, 0.18) !important;
+    border: 1px solid rgba(59, 130, 246, 0.35) !important;
+    color: #60a5fa !important;
+}
+
+html[data-theme="dark"] .notif-ref-text,
+html.dark .notif-ref-text {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .bpis-notif-toast,
+html.dark .bpis-notif-toast {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+    box-shadow: var(--bpis-dark-modal-shadow) !important;
+}
+
+/* ==========================================================================
+   9. Modals (Logout, Asset Edit, Asset Picker, Borrower Modals)
+   ========================================================================== */
+html[data-theme="dark"] .logout-modal,
+html[data-theme="dark"] .bpis-logout-modal,
+html[data-theme="dark"] #logoutOverlay .logout-modal,
+html.dark .logout-modal,
+html.dark .bpis-logout-modal,
+html.dark #logoutOverlay .logout-modal {
+    background-color: var(--bpis-dark-surface) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    box-shadow: var(--bpis-dark-modal-shadow) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .logout-modal h2,
+html[data-theme="dark"] .bpis-logout-modal-title,
+html[data-theme="dark"] #bpisLogoutTitle,
+html[data-theme="dark"] #actionConfirmTitle,
+html.dark .logout-modal h2,
+html.dark .bpis-logout-modal-title,
+html.dark #bpisLogoutTitle,
+html.dark #actionConfirmTitle {
+    color: #f87171 !important;
+}
+
+html[data-theme="dark"] .logout-modal p,
+html[data-theme="dark"] .bpis-logout-modal-text,
+html.dark .logout-modal p,
+html.dark .bpis-logout-modal-text {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .logout-buttons,
+html[data-theme="dark"] .bpis-logout-modal-actions,
+html.dark .logout-buttons,
+html.dark .bpis-logout-modal-actions {
+    background-color: var(--bpis-dark-surface) !important;
+    border-top: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .btn-cancel,
+html[data-theme="dark"] .bpis-logout-btn-cancel,
+html.dark .btn-cancel,
+html.dark .bpis-logout-btn-cancel {
+    background-color: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .btn-cancel:hover,
+html[data-theme="dark"] .bpis-logout-btn-cancel:hover,
+html.dark .btn-cancel:hover,
+html.dark .bpis-logout-btn-cancel:hover {
+    background-color: var(--bpis-dark-surface-hover) !important;
+    color: #ffffff !important;
+    border-color: #475569 !important;
+}
+
+/* Asset Edit Modal */
+html[data-theme="dark"] .bpis-edit-asset-modal,
+html[data-theme="dark"] .asset-modal,
+html.dark .bpis-edit-asset-modal,
+html.dark .asset-modal {
+    background-color: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    box-shadow: var(--bpis-dark-modal-shadow) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .bpis-edit-asset-header,
+html[data-theme="dark"] .asset-modal-header,
+html.dark .bpis-edit-asset-header,
+html.dark .asset-modal-header {
+    background: linear-gradient(135deg, var(--bpis-dark-surface-elevated) 0%, #172554 100%) !important;
+    border-bottom: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .bpis-edit-asset-body,
+html[data-theme="dark"] .asset-modal-body,
+html.dark .bpis-edit-asset-body,
+html.dark .asset-modal-body {
+    background-color: var(--bpis-dark-surface) !important;
+}
+
+html[data-theme="dark"] .bpis-edit-asset-footer,
+html[data-theme="dark"] .asset-modal-footer,
+html.dark .bpis-edit-asset-footer,
+html.dark .asset-modal-footer {
+    background-color: var(--bpis-dark-surface-elevated) !important;
+    border-top: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .asset-modal-label,
+html.dark .asset-modal-label {
+    color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .asset-modal-input,
+html.dark .asset-modal-input {
+    background-color: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+/* Asset Picker */
+html[data-theme="dark"] .bpis-asset-picker-trigger,
+html.dark .bpis-asset-picker-trigger {
+    background-color: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .bpis-asset-picker-name,
+html.dark .bpis-asset-picker-name {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .bpis-asset-picker-desc,
+html.dark .bpis-asset-picker-desc {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .bpis-asset-picker-panel,
+html.dark .bpis-asset-picker-panel {
+    background-color: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    box-shadow: var(--bpis-dark-modal-shadow) !important;
+}
+
+/* Borrower Modal in Secretary */
+html[data-theme="dark"] .modal-content.borrower-modal,
+html.dark .modal-content.borrower-modal {
+    background-color: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .borrower-modal-header,
+html.dark .borrower-modal-header {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-bottom: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .borrower-modal-header h2,
+html.dark .borrower-modal-header h2 {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .modal-section-title,
+html.dark .modal-section-title {
+    color: #60a5fa !important;
+}
+
+/* Image preview modal */
+html[data-theme="dark"] .bpis-image-preview-overlay,
+html.dark .bpis-image-preview-overlay {
+    background: rgba(7, 14, 34, 0.92) !important;
+}
+
+/* ==========================================================================
+   10. Profile Page in Dark Mode
+   ========================================================================== */
+html[data-theme="dark"] .profile-info-card,
+html.dark .profile-info-card {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .profile-info-header,
+html.dark .profile-info-header {
+    background: linear-gradient(135deg, var(--bpis-dark-surface-elevated) 0%, #172554 100%) !important;
+}
+
+html[data-theme="dark"] .profile-info-body,
+html.dark .profile-info-body {
+    background: var(--bpis-dark-surface) !important;
+}
+
+html[data-theme="dark"] .profile-section,
+html[data-theme="dark"] .profile-field-group,
+html.dark .profile-section,
+html.dark .profile-field-group {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .profile-field-label,
+html.dark .profile-field-label {
+    color: #94a3b8 !important;
+}
+
+/* ==========================================================================
+   11. Captain Users Management in Dark Mode
+   ========================================================================== */
+html[data-theme="dark"] .captain-users-create,
+html[data-theme="dark"] .captain-users-card,
+html.dark .captain-users-create,
+html.dark .captain-users-card {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .captain-users-create h2,
+html[data-theme="dark"] .captain-users-list h2,
+html.dark .captain-users-create h2,
+html.dark .captain-users-list h2 {
+    color: #60a5fa !important;
+}
+
+/* QR Camera Scanner Box */
+html[data-theme="dark"] #reader,
+html.dark #reader {
+    background: var(--bpis-dark-surface) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+}
+
+/* Scan status alerts */
+html[data-theme="dark"] .scan-status-info,
+html.dark .scan-status-info {
+    background: rgba(59, 130, 246, 0.15) !important;
+    border-color: rgba(59, 130, 246, 0.3) !important;
+    color: #93c5fd !important;
+}
+
+html[data-theme="dark"] .scan-status-ok,
+html.dark .scan-status-ok {
+    background: rgba(16, 185, 129, 0.15) !important;
+    border-color: rgba(16, 185, 129, 0.3) !important;
+    color: #6ee7b7 !important;
+}
+
+html[data-theme="dark"] .scan-status-warn,
+html.dark .scan-status-warn {
+    background: rgba(245, 158, 11, 0.15) !important;
+    border-color: rgba(245, 158, 11, 0.3) !important;
+    color: #fde68a !important;
+}
+
+html[data-theme="dark"] .scan-status-error,
+html.dark .scan-status-error {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.3) !important;
+    color: #fca5a5 !important;
+}
+
+/* ==========================================================================
+   12. Auth Flow & Borrower Flow in Dark Mode
+   ========================================================================== */
+html[data-theme="dark"] body.borrow-flow,
+html.dark body.borrow-flow {
+    background-color: #070d1e !important;
+    background-image: radial-gradient(circle at 50% 20%, #112048 0%, #070d1e 75%) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .borrow-card,
+html.dark .borrow-card {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    box-shadow: var(--bpis-dark-modal-shadow) !important;
+}
+
+html[data-theme="dark"] .auth-hero-panel,
+html.dark .auth-hero-panel {
+    background: linear-gradient(135deg, var(--bpis-dark-surface-elevated) 0%, #102147 100%) !important;
+    border-right: 1px solid var(--bpis-dark-border) !important;
+}
+
+html[data-theme="dark"] .borrow-title,
+html.dark .borrow-title {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .borrow-lead,
+html[data-theme="dark"] .borrow-brand-text,
+html.dark .borrow-lead,
+html.dark .borrow-brand-text {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .borrow-input,
+html.dark .borrow-input {
+    background-color: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .borrow-step,
+html.dark .borrow-step {
+    background: #1e293b !important;
+}
+
+html[data-theme="dark"] .borrow-step.is-done,
+html[data-theme="dark"] .borrow-step.is-active,
+html.dark .borrow-step.is-done,
+html.dark .borrow-step.is-active {
+    background: #3b82f6 !important;
+}
+
+html[data-theme="dark"] .borrow-alert,
+html.dark .borrow-alert {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.35) !important;
+    color: #fca5a5 !important;
+}
+
+html[data-theme="dark"] .borrow-alert--success,
+html.dark .borrow-alert--success {
+    background: rgba(16, 185, 129, 0.15) !important;
+    border-color: rgba(16, 185, 129, 0.35) !important;
+    color: #6ee7b7 !important;
+}
+
+html[data-theme="dark"] .borrow-footer a,
+html.dark .borrow-footer a {
+    color: #60a5fa !important;
+}
+
+html[data-theme="dark"] .borrow-footer a:hover,
+html.dark .borrow-footer a:hover {
+    color: #93c5fd !important;
+}
+
+html[data-theme="dark"] .borrow-google-btn,
+html.dark .borrow-google-btn {
+    background-color: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .borrow-google-btn:hover,
+html.dark .borrow-google-btn:hover {
+    background-color: var(--bpis-dark-surface-hover) !important;
+    border-color: #3b82f6 !important;
+}
+
+html[data-theme="dark"] .borrow-divider,
+html.dark .borrow-divider {
+    color: var(--bpis-dark-text-muted) !important;
+}
+
+html[data-theme="dark"] .borrow-divider::before,
+html[data-theme="dark"] .borrow-divider::after,
+html.dark .borrow-divider::before,
+html.dark .borrow-divider::after {
+    background: var(--bpis-dark-border) !important;
+}
+
+/* ==========================================================================
+   14. Tailwind & Utility Overrides — Generic Light Utilities → Dark
+   ========================================================================== */
+html[data-theme="dark"] .bg-white,
+html.dark .bg-white {
+    background-color: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .bg-gray-50,
+html.dark .bg-gray-50 {
+    background-color: var(--bpis-dark-surface) !important;
+}
+html[data-theme="dark"] .bg-gray-100,
+html.dark .bg-gray-100 {
+    background-color: var(--bpis-dark-surface) !important;
+}
+html[data-theme="dark"] .bg-gray-50.rounded-t-xl,
+html[data-theme="dark"] .bg-gray-50.rounded-b-xl,
+html.dark .bg-gray-50.rounded-t-xl,
+html.dark .bg-gray-50.rounded-b-xl {
+    background-color: var(--bpis-dark-surface) !important;
+}
+html[data-theme="dark"] .border-gray-100,
+html[data-theme="dark"] .border-gray-200,
+html[data-theme="dark"] .border-gray-300,
+html.dark .border-gray-100,
+html.dark .border-gray-200,
+html.dark .border-gray-300 {
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .border-b.border-gray-100,
+html[data-theme="dark"] .border-b.border-gray-200,
+html.dark .border-b.border-gray-100,
+html.dark .border-b.border-gray-200 {
+    border-bottom-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .text-gray-400,
+html.dark .text-gray-400 { color: var(--bpis-dark-text-muted) !important; }
+html[data-theme="dark"] .text-gray-500,
+html.dark .text-gray-500 { color: #94a3b8 !important; }
+html[data-theme="dark"] .text-gray-600,
+html.dark .text-gray-600 { color: #cbd5e1 !important; }
+html[data-theme="dark"] .text-gray-700,
+html[data-theme="dark"] .text-gray-800,
+html[data-theme="dark"] .text-slate-900,
+html[data-theme="dark"] .text-gray-900,
+html.dark .text-gray-700,
+html.dark .text-gray-800,
+html.dark .text-slate-900,
+html.dark .text-gray-900 { color: #f8fafc !important; }
+html[data-theme="dark"] .text-blue-800,
+html.dark .text-blue-800 { color: #93c5fd !important; }
+html[data-theme="dark"] .placeholder-gray-400::placeholder,
+html.dark .placeholder-gray-400::placeholder { color: #64748b !important; }
+/* Tailwind branded buttons keep contrast but border adapts */
+html[data-theme="dark"] .bg-blue-600,
+html.dark .bg-blue-600 { background-color: #2563eb !important; }
+html[data-theme="dark"] .hover\:bg-blue-700:hover,
+html.dark .hover\:bg-blue-700:hover { background-color: #1d4ed8 !important; }
+
+/* ==========================================================================
+   15. Layout Shell, Content Panels, Custom Scrollbars & Sticky Header
+   ========================================================================== */
+html[data-theme="dark"] .flex-grow.bg-white,
+html[data-theme="dark"] .inventory-table-card,
+html[data-theme="dark"] .secretary-page-scroll,
+html[data-theme="dark"] .captain-page-scroll,
+html[data-theme="dark"] .profile-page-wrap,
+html.dark .flex-grow.bg-white,
+html.dark .inventory-table-card,
+html.dark .secretary-page-scroll,
+html.dark .captain-page-scroll,
+html.dark .profile-page-wrap {
+    background-color: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .flex-grow.bg-white .overflow-y-auto,
+html.dark .flex-grow.bg-white .overflow-y-auto {
+    background-color: transparent !important;
+}
+html[data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-track,
+html.dark .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--bpis-dark-surface-elevated) !important;
+}
+html[data-theme="dark"] .bpis-sticky-header,
+html.dark .bpis-sticky-header {
+    background: var(--bpis-dark-header-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .sidebar-overlay,
+html.dark .sidebar-overlay {
+    background: rgba(3, 7, 18, 0.62) !important;
+    backdrop-filter: blur(4px);
+}
+
+/* ==========================================================================
+   16. Tables Extended — Secretary / Captain / Treasurer Inventory
+   ========================================================================== */
+html[data-theme="dark"] .inventory-table-card .bg-white,
+html[data-theme="dark"] .table-scroll .bg-white,
+html.dark .inventory-table-card .bg-white,
+html.dark .table-scroll .bg-white {
+    background: var(--bpis-dark-surface) !important;
+}
+html[data-theme="dark"] .inventory-table-card thead tr,
+html.dark .inventory-table-card thead tr {
+    background: var(--bpis-dark-surface-elevated) !important;
+}
+html[data-theme="dark"] .asset-row,
+html[data-theme="dark"] .cap-inv-row,
+html[data-theme="dark"] .cap-bor-row,
+html[data-theme="dark"] .audit-act-row,
+html.dark .asset-row,
+html.dark .cap-inv-row,
+html.dark .cap-bor-row,
+html.dark .audit-act-row {
+    border-color: var(--bpis-dark-border-subtle) !important;
+}
+html[data-theme="dark"] .asset-row:hover,
+html[data-theme="dark"] .cap-inv-row:hover,
+html.dark .asset-row:hover,
+html.dark .cap-inv-row:hover {
+    background: var(--bpis-dark-surface-hover) !important;
+}
+html[data-theme="dark"] .asset-desc,
+html[data-theme="dark"] .acquisition-mode-cell,
+html[data-theme="dark"] .acquisition-attachments-cell,
+html.dark .asset-desc,
+html.dark .acquisition-mode-cell,
+html.dark .acquisition-attachments-cell {
+    color: #cbd5e1 !important;
+}
+html[data-theme="dark"] .tag-unit-photo,
+html.dark .tag-unit-photo {
+    border-color: var(--bpis-dark-border) !important;
+    background: var(--bpis-dark-surface) !important;
+}
+/* Inventory filters */
+html[data-theme="dark"] #clusterFilter,
+html[data-theme="dark"] #categoryFilter,
+html[data-theme="dark"] #assetSearch,
+html[data-theme="dark"] .secretary-filter-input,
+html[data-theme="dark"] .secretary-search-input,
+html.dark #clusterFilter,
+html.dark #categoryFilter,
+html.dark #assetSearch,
+html.dark .secretary-filter-input,
+html.dark .secretary-search-input {
+    background: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+html[data-theme="dark"] #assetSearch::placeholder,
+html.dark #assetSearch::placeholder {
+    color: #64748b !important;
+}
+html[data-theme="dark"] .text-gray-400 i,
+html.dark .text-gray-400 i {
+    color: var(--bpis-dark-text-muted) !important;
+}
+
+/* Secretary specific tables — blocklist, borrowers, overdue, requests, confirmation */
+html[data-theme="dark"] .secretary-table-wrap,
+html[data-theme="dark"] .secretary-content-card,
+html[data-theme="dark"] .secretary-card,
+html[data-theme="dark"] .borrower-table-card,
+html[data-theme="dark"] .overdue-card,
+html.dark .secretary-table-wrap,
+html.dark .secretary-content-card,
+html.dark .secretary-card,
+html.dark .borrower-table-card,
+html.dark .overdue-card {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .secretary-data-row td,
+html.dark .secretary-data-row td {
+    color: #cbd5e1 !important;
+    border-color: var(--bpis-dark-border-subtle) !important;
+}
+html[data-theme="dark"] .blocklist-search-wrap input,
+html[data-theme="dark"] .secretary-search-wrap input,
+html.dark .blocklist-search-wrap input,
+html.dark .secretary-search-wrap input {
+    background: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+/* ==========================================================================
+   17. Forms, Inputs, Borrow Flow & Auth Flow Extended
+   ========================================================================== */
+html[data-theme="dark"] .borrow-panel,
+html[data-theme="dark"] .borrow-scroll,
+html[data-theme="dark"] .borrow-added-table-wrap,
+html[data-theme="dark"] .auth-hero-inner,
+html.dark .borrow-panel,
+html.dark .borrow-scroll,
+html.dark .borrow-added-table-wrap,
+html.dark .auth-hero-inner {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .borrow-panel-head,
+html.dark .borrow-panel-head {
+    background: var(--bpis-dark-surface) !important;
+    border-bottom-color: var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+html[data-theme="dark"] .borrow-product-card,
+html[data-theme="dark"] .borrow-product-card.result-item,
+html.dark .borrow-product-card,
+html.dark .borrow-product-card.result-item {
+    background: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+html[data-theme="dark"] .borrow-product-card:hover,
+html.dark .borrow-product-card:hover {
+    border-color: #3b82f6 !important;
+    background: var(--bpis-dark-surface-hover) !important;
+}
+html[data-theme="dark"] .borrow-product-card.selected,
+html.dark .borrow-product-card.selected {
+    background: rgba(59,130,246,0.15) !important;
+    border-color: #3b82f6 !important;
+}
+html[data-theme="dark"] .borrow-product-title,
+html.dark .borrow-product-title { color: #f8fafc !important; }
+html[data-theme="dark"] .borrow-product-meta,
+html.dark .borrow-product-meta { color: #94a3b8 !important; }
+html[data-theme="dark"] .borrow-added-table,
+html.dark .borrow-added-table { background: var(--bpis-dark-surface) !important; }
+html[data-theme="dark"] .borrow-added-table th,
+html.dark .borrow-added-table th {
+    background: var(--bpis-dark-surface-elevated) !important;
+    color: #94a3b8 !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .borrow-added-table td,
+html.dark .borrow-added-table td {
+    color: #cbd5e1 !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .borrow-remove-btn,
+html.dark .borrow-remove-btn {
+    background: rgba(239,68,68,0.12) !important;
+    border-color: rgba(239,68,68,0.3) !important;
+    color: #f87171 !important;
+}
+html[data-theme="dark"] .borrow-remove-btn:hover,
+html.dark .borrow-remove-btn:hover {
+    background: rgba(239,68,68,0.2) !important;
+    color: #fca5a5 !important;
+}
+html[data-theme="dark"] .borrow-section-title,
+html.dark .borrow-section-title { color: #f8fafc !important; }
+html[data-theme="dark"] .borrow-section-hint,
+html[data-theme="dark"] .borrow-hint,
+html.dark .borrow-section-hint,
+html.dark .borrow-hint { color: #94a3b8 !important; }
+html[data-theme="dark"] .borrow-hint--ok,
+html.dark .borrow-hint--ok {
+    color: #6ee7b7 !important;
+    background: rgba(16,185,129,0.12) !important;
+    border-color: rgba(16,185,129,0.25) !important;
+}
+html[data-theme="dark"] .borrow-check,
+html.dark .borrow-check { color: #cbd5e1 !important; }
+html[data-theme="dark"] .borrow-field-label,
+html.dark .borrow-field-label { color: #cbd5e1 !important; }
+html[data-theme="dark"] .borrow-input,
+html[data-theme="dark"] .borrow-textarea,
+html[data-theme="dark"] .borrow-select,
+html.dark .borrow-input,
+html.dark .borrow-textarea,
+html.dark .borrow-select {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+html[data-theme="dark"] .borrow-input[readonly],
+html.dark .borrow-input[readonly] {
+    background: var(--bpis-dark-surface-elevated) !important;
+    color: #94a3b8 !important;
+}
+html[data-theme="dark"] .borrow-id-capture,
+html.dark .borrow-id-capture {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .borrow-id-capture__btn,
+html.dark .borrow-id-capture__btn {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+html[data-theme="dark"] .borrow-id-capture__btn:hover,
+html.dark .borrow-id-capture__btn:hover {
+    background: var(--bpis-dark-surface-hover) !important;
+    color: #fff !important;
+}
+/* Auth flow extras */
+html[data-theme="dark"] .auth-hero-art,
+html.dark .auth-hero-art {
+    filter: brightness(0.95) contrast(1.05);
+}
+html[data-theme="dark"] .borrow-role-btn,
+html.dark .borrow-role-btn {
+    background: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+html[data-theme="dark"] .borrow-role-btn.is-active,
+html.dark .borrow-role-btn.is-active {
+    background: rgba(59,130,246,0.18) !important;
+    border-color: #3b82f6 !important;
+    color: #93c5fd !important;
+}
+html[data-theme="dark"] .borrow-password-wrap,
+html.dark .borrow-password-wrap { position: relative; }
+html[data-theme="dark"] .borrow-toggle-pw,
+html.dark .borrow-toggle-pw { color: #94a3b8 !important; }
+html[data-theme="dark"] .borrow-toggle-pw:hover,
+html.dark .borrow-toggle-pw:hover { color: #60a5fa !important; }
+
+/* Treasurer Asset Registration form — lighter fields that were white */
+html[data-theme="dark"] .reg-label,
+html[data-theme="dark"] .reg-section-title,
+html.dark .reg-label,
+html.dark .reg-section-title { color: #cbd5e1 !important; }
+html[data-theme="dark"] .acq-required,
+html.dark .acq-required { color: #f87171 !important; }
+html[data-theme="dark"] #articleInput,
+html[data-theme="dark"] #descriptionInput,
+html[data-theme="dark"] #propNumber,
+html[data-theme="dark"] input[name="unit_value"],
+html[data-theme="dark"] input[name="location"],
+html[data-theme="dark"] input[name="brand"],
+html[data-theme="dark"] input[name="model"],
+html.dark #articleInput,
+html.dark #descriptionInput,
+html.dark #propNumber,
+html.dark input[name="unit_value"],
+html.dark input[name="location"],
+html.dark input[name="brand"],
+html.dark input[name="model"] {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+/* ==========================================================================
+   18. Modals Extended — QR, Preview, Secretary, Borrow Add, Logout
+   ========================================================================== */
+html[data-theme="dark"] .asset-modal-overlay,
+html[data-theme="dark"] .bpis-image-preview-overlay,
+html[data-theme="dark"] .borrow-camera-modal,
+html.dark .asset-modal-overlay,
+html.dark .bpis-image-preview-overlay,
+html.dark .borrow-camera-modal {
+    background: rgba(7,14,34,0.72) !important;
+}
+html[data-theme="dark"] .bpis-edit-asset-body,
+html.dark .bpis-edit-asset-body { background: var(--bpis-dark-surface) !important; }
+html[data-theme="dark"] .bpis-edit-asset-hero,
+html.dark .bpis-edit-asset-hero {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .bpis-edit-asset-hero-name,
+html.dark .bpis-edit-asset-hero-name { color: #f8fafc !important; }
+html[data-theme="dark"] .bpis-edit-asset-hero-detail,
+html.dark .bpis-edit-asset-hero-detail { color: #94a3b8 !important; }
+html[data-theme="dark"] .bpis-edit-asset-hero-prop,
+html.dark .bpis-edit-asset-hero-prop { color: #93c5fd !important; }
+html[data-theme="dark"] .bpis-edit-asset-section-title,
+html.dark .bpis-edit-asset-section-title {
+    color: #94a3b8 !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .bpis-edit-doc-preview-wrap,
+html.dark .bpis-edit-doc-preview-wrap {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .bpis-edit-unit-conditions-list,
+html.dark .bpis-edit-unit-conditions-list {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .bpis-edit-unit-condition-row,
+html.dark .bpis-edit-unit-condition-row {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .bpis-delete-asset-header,
+html[data-theme="dark"] .bpis-delete-asset-body,
+html.dark .bpis-delete-asset-header,
+html.dark .bpis-delete-asset-body { background: var(--bpis-dark-surface) !important; }
+html[data-theme="dark"] .bpis-delete-asset-header h3,
+html.dark .bpis-delete-asset-header h3 { color: #f8fafc !important; }
+html[data-theme="dark"] .bpis-delete-asset-body p,
+html.dark .bpis-delete-asset-body p { color: #94a3b8 !important; }
+html[data-theme="dark"] .qr-modal-header,
+html[data-theme="dark"] .qr-modal-footer,
+html.dark .qr-modal-header,
+html.dark .qr-modal-footer {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .qr-modal-header h3,
+html.dark .qr-modal-header h3 { color: #f8fafc !important; }
+html[data-theme="dark"] #closeQrModal,
+html.dark #closeQrModal {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+html[data-theme="dark"] #closeQrModal:hover,
+html.dark #closeQrModal:hover {
+    background: var(--bpis-dark-surface-hover) !important;
+    color: #f87171 !important;
+}
+/* Secretary modal — borrower2 add modal etc */
+html[data-theme="dark"] .borrower-modal-overlay,
+html.dark .borrower-modal-overlay {
+    background: rgba(7,14,34,0.72) !important;
+}
+html[data-theme="dark"] .secretary-modal,
+html[data-theme="dark"] .confirmation-modal,
+html.dark .secretary-modal,
+html.dark .confirmation-modal {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+
+/* ==========================================================================
+   19. Cards, Alerts, Badges, Profile Extended
+   ========================================================================== */
+html[data-theme="dark"] .profile-info-card,
+html[data-theme="dark"] .profile-crop-modal,
+html.dark .profile-info-card,
+html.dark .profile-crop-modal {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .profile-avatar-title,
+html.dark .profile-avatar-title { color: #94a3b8 !important; }
+html[data-theme="dark"] .profile-photo-hint,
+html.dark .profile-photo-hint { color: var(--bpis-dark-text-muted) !important; }
+html[data-theme="dark"] .profile-photo-filename,
+html.dark .profile-photo-filename { color: #cbd5e1 !important; }
+html[data-theme="dark"] .profile-field-value.readonly,
+html.dark .profile-field-value.readonly {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #94a3b8 !important;
+}
+html[data-theme="dark"] .btn-profile-upload,
+html.dark .btn-profile-upload {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #93c5fd !important;
+}
+html[data-theme="dark"] .btn-profile-close-bottom,
+html.dark .btn-profile-close-bottom {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+}
+html[data-theme="dark"] .profile-flash.ok,
+html.dark .profile-flash.ok {
+    background: rgba(16,185,129,0.12) !important;
+    border-color: rgba(16,185,129,0.25) !important;
+    color: #6ee7b7 !important;
+}
+html[data-theme="dark"] .profile-flash.err,
+html.dark .profile-flash.err {
+    background: rgba(239,68,68,0.12) !important;
+    border-color: rgba(239,68,68,0.25) !important;
+    color: #fca5a5 !important;
+}
+html[data-theme="dark"] .borrow-success-card .borrow-success-message,
+html[data-theme="dark"] .borrow-success-tips,
+html.dark .borrow-success-card .borrow-success-message,
+html.dark .borrow-success-tips {
+    color: #cbd5e1 !important;
+}
+html[data-theme="dark"] .borrow-success-tips,
+html.dark .borrow-success-tips {
+    background: rgba(59,130,246,0.10) !important;
+    border-color: rgba(59,130,246,0.25) !important;
+}
+/* Secretary inline alerts that were #fef2f2 etc — force dark readable */
+html[data-theme="dark"] div[style*="background: #fef2f2"],
+html[data-theme="dark"] div[style*="background:#fef2f2"],
+html.dark div[style*="background: #fef2f2"],
+html.dark div[style*="background:#fef2f2"] {
+    background: rgba(239,68,68,0.14) !important;
+    border-color: rgba(239,68,68,0.30) !important;
+    color: #fca5a5 !important;
+}
+html[data-theme="dark"] div[style*="background: #fff7ed"],
+html[data-theme="dark"] div[style*="background:#fff7ed"],
+html.dark div[style*="background: #fff7ed"],
+html.dark div[style*="background:#fff7ed"] {
+    background: rgba(245,158,11,0.14) !important;
+    border-color: rgba(245,158,11,0.30) !important;
+    color: #fde68a !important;
+}
+/* bpis_sticky_header, stat_cards, bpis_notifications extra */
+html[data-theme="dark"] .bpis-sticky-header-date,
+html.dark .bpis-sticky-header-date { color: #94a3b8 !important; }
+html[data-theme="dark"] .category-count,
+html.dark .category-count { color: #93c5fd !important; }
+html[data-theme="dark"] .asset-code,
+html.dark .asset-code { color: #f8fafc !important; }
+html[data-theme="dark"] code,
+html.dark code {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    color: #93c5fd !important;
+}
+
+/* ==========================================================================
+   20. Asset Picker, Inventory Image, Table Filter, Mobile Sidebars
+   ========================================================================== */
+html[data-theme="dark"] .bpis-asset-picker-panel,
+html.dark .bpis-asset-picker-panel {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .bpis-asset-picker-search,
+html.dark .bpis-asset-picker-search {
+    background: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+html[data-theme="dark"] .bpis-asset-picker-option:hover,
+html.dark .bpis-asset-picker-option:hover {
+    background: var(--bpis-dark-surface-hover) !important;
+}
+html[data-theme="dark"] .bpis-asset-thumb,
+html.dark .bpis-asset-thumb {
+    border-color: var(--bpis-dark-border) !important;
+    background: var(--bpis-dark-surface-elevated) !important;
+}
+html[data-theme="dark"] .bpis-date-filter-bar,
+html.dark .bpis-date-filter-bar {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .bpis-mobile-date-picker-modal,
+html.dark .bpis-mobile-date-picker-modal {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .captain-users-create input,
+html[data-theme="dark"] .captain-users-create select,
+html.dark .captain-users-create input,
+html.dark .captain-users-create select {
+    background: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+/* Secretary/General inline white cards that use hardcoded #ffffff via style attribute */
+html[data-theme="dark"] [style*="background: #ffffff"],
+html[data-theme="dark"] [style*="background:#ffffff"],
+html[data-theme="dark"] [style*="background: #fff;"],
+html[data-theme="dark"] [style*="background:#fff"],
+html.dark [style*="background: #ffffff"],
+html.dark [style*="background:#ffffff"],
+html.dark [style*="background: #fff;"],
+html.dark [style*="background:#fff"] {
+    background-color: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+/* Ensure hard white text on light bg inside inline remains readable after override */
+html[data-theme="dark"] [style*="background: #ffffff"] *,
+html.dark [style*="background: #ffffff"] * {
+    color: #f8fafc !important;
+}
+
+/* Mobile sidebar dark layer */
+html[data-theme="dark"] .mobile-nav-toggle,
+html.dark .mobile-nav-toggle {
+    background: rgba(255,255,255,0.10) !important;
+    border: 1px solid rgba(255,255,255,0.18) !important;
+    color: #f8fafc !important;
+}
+html[data-theme="dark"] .borrow-back,
+html.dark .borrow-back { color: #93c5fd !important; }
+html[data-theme="dark"] .borrow-back:hover,
+html.dark .borrow-back:hover { color: #bfdbfe !important; }
+
+/* ==========================================================================
+   21. Responsive & Mobile Overlay Polish + Icon Visibility
+   ========================================================================== */
+html[data-theme="dark"] .sidebar-overlay.active,
+html.dark .sidebar-overlay.active {
+    background: rgba(3,7,18,0.68) !important;
+}
+html[data-theme="dark"] i.fa-solid,
+html[data-theme="dark"] i.fa-regular,
+html.dark i.fa-solid,
+html.dark i.fa-regular {
+    color: inherit;
+}
+html[data-theme="dark"] .header-icons i,
+html.dark .header-icons i { color: #cbd5e1 !important; }
+html[data-theme="dark"] .bpis-theme-toggle:hover,
+html.dark .bpis-theme-toggle:hover { border-color: #60a5fa !important; }
+
+/* ==========================================================================
+   22. CRITICAL FIX: Secretary/Stat Card Numbers Visibility (Image 1 bug)
+   ========================================================================== */
+html[data-theme="dark"] .cards-container > .card .card-number,
+html[data-theme="dark"] .cards-container .card-number,
+html[data-theme="dark"] .card .card-number,
+html[data-theme="dark"] body .cards-container > .card .card-number,
+html[data-theme="dark"] body .card .card-number,
+html.dark .cards-container > .card .card-number,
+html.dark .cards-container .card-number,
+html.dark .card .card-number,
+html.dark body .cards-container > .card .card-number,
+html.dark body .card .card-number,
+body.dark-mode .cards-container > .card .card-number,
+body.dark-mode .card .card-number {
+    color: #059669 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+/* Stat card numbers match border color — per variant (fixes white override) — same as light image even in dark */
+html[data-theme="dark"] .cards-container > .card.card-blue .card-number,
+html[data-theme="dark"] body .cards-container > .card.card-blue .card-number,
+html.dark .cards-container > .card.card-blue .card-number,
+body.dark-mode .cards-container > .card.card-blue .card-number {
+    color: #60a5fa !important;
+}
+html[data-theme="dark"] .cards-container > .card.card-yellow .card-number,
+html[data-theme="dark"] body .cards-container > .card.card-yellow .card-number,
+html.dark .cards-container > .card.card-yellow .card-number,
+body.dark-mode .cards-container > .card.card-yellow .card-number {
+    color: #d97706 !important;
+}
+html[data-theme="dark"] .cards-container > .card.card-green .card-number,
+html[data-theme="dark"] body .cards-container > .card.card-green .card-number,
+html.dark .cards-container > .card.card-green .card-number,
+body.dark-mode .cards-container > .card.card-green .card-number {
+    color: #059669 !important;
+}
+html[data-theme="dark"] .cards-container > .card.card-red .card-number,
+html[data-theme="dark"] body .cards-container > .card.card-red .card-number,
+html.dark .cards-container > .card.card-red .card-number,
+body.dark-mode .cards-container > .card.card-red .card-number {
+    color: #f87171 !important;
+}
+/* Labels above numbers */
+html[data-theme="dark"] .cards-container > .card p,
+html.dark .cards-container > .card p,
+body.dark-mode .cards-container > .card p {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+/* ==========================================================================
+   23. Universal Text Visibility — Fix ALL Remaining Dark/Gray on Dark
+   ========================================================================== */
+html[data-theme="dark"] .content-subheader h4,
+html.dark .content-subheader h4 { color: #60a5fa !important; font-size: 14px !important; }
+html[data-theme="dark"] .borrowers-tab-link,
+html.dark .borrowers-tab-link { color: #94a3b8 !important; }
+html[data-theme="dark"] .borrowers-tab-link:hover,
+html.dark .borrowers-tab-link:hover { color: #e2e8f0 !important; border-bottom-color: #60a5fa !important; background: rgba(255,255,255,0.06) !important; }
+html[data-theme="dark"] .borrowers-tab-link.active,
+html.dark .borrowers-tab-link.active { color: #60a5fa !important; border-bottom-color: #60a5fa !important; }
+html[data-theme="dark"] .row-id,
+html.dark .row-id { color: #f8fafc !important; }
+html[data-theme="dark"] .borrower-address,
+html.dark .borrower-address { color: #94a3b8 !important; }
+html[data-theme="dark"] .borrower-card-name,
+html.dark .borrower-card-name { color: #f8fafc !important; }
+html[data-theme="dark"] .borrower-card-meta,
+html.dark .borrower-card-meta { color: #94a3b8 !important; }
+html[data-theme="dark"] .blocklist-directory-header h3,
+html[data-theme="dark"] .blocklist-directory-header p,
+html[data-theme="dark"] .blocklist-section-title,
+html[data-theme="dark"] .warning-text,
+html.dark .blocklist-directory-header h3,
+html.dark .blocklist-directory-header p,
+html.dark .blocklist-section-title,
+html.dark .warning-text { color: #cbd5e1 !important; }
+html[data-theme="dark"] .blocklist-directory-header h3,
+html.dark .blocklist-directory-header h3 { color: #f8fafc !important; }
+html[data-theme="dark"] .warning-text,
+html.dark .warning-text { color: #fca5a5 !important; }
+html[data-theme="dark"] .blocklist-section-title,
+html.dark .blocklist-section-title,
+body.dark-mode .blocklist-section-title {
+    margin: 40px 0 18px !important;
+    margin-top: 40px !important;
+    padding-top: 8px !important;
+    display: block !important;
+    clear: both !important;
+}
+html[data-theme="dark"] #blockBorrowerForm,
+html.dark #blockBorrowerForm {
+    margin-top: 12px !important;
+}
+html[data-theme="dark"] #blockBorrowerForm + .blocklist-section-title,
+html.dark #blockBorrowerForm + .blocklist-section-title {
+    margin-top: 36px !important;
+}
+html[data-theme="dark"] #approvedReceiveQtyHint,
+html.dark #approvedReceiveQtyHint { color: #94a3b8 !important; }
+html[data-theme="dark"] .vetting-pending-card,
+html.dark .vetting-pending-card { color: #cbd5e1 !important; }
+html[data-theme="dark"] .vetting-profile-card,
+html.dark .vetting-profile-card { color: #cbd5e1 !important; }
+/* Secretary tables empty-state inline color:#888 */
+html[data-theme="dark"] [style*="color:#888"],
+html[data-theme="dark"] [style*="color: #888"],
+html.dark [style*="color:#888"],
+html.dark [style*="color: #888"] {
+    color: #94a3b8 !important;
+}
+html[data-theme="dark"] .secretary-data-table th,
+html.dark .secretary-data-table th {
+    background: var(--bpis-dark-surface-elevated) !important;
+    color: #94a3b8 !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .secretary-data-table td,
+html.dark .secretary-data-table td {
+    color: #cbd5e1 !important;
+    border-color: var(--bpis-dark-border-subtle) !important;
+}
+html[data-theme="dark"] .table-section h3,
+html.dark .table-section h3 { color: #f8fafc !important; }
+html[data-theme="dark"] .borrower-name,
+html.dark .borrower-name { color: #f8fafc !important; }
+
+/* ==========================================================================
+   24. Tables Polish — Pagination, Empty State, Action Buttons, Hover
+   ========================================================================== */
+html[data-theme="dark"] .table-section .empty-state,
+html[data-theme="dark"] .borrower-grid .blocklist-no-match,
+html.dark .table-section .empty-state,
+html.dark .borrower-grid .blocklist-no-match {
+    color: #94a3b8 !important;
+    background: transparent !important;
+}
+html[data-theme="dark"] .action-container,
+html.dark .action-container { gap: 6px !important; }
+html[data-theme="dark"] .btn-approve,
+html[data-theme="dark"] .btn-receive,
+html.dark .btn-approve,
+html.dark .btn-receive {
+    background: linear-gradient(135deg, #065f46 0%, #059669 100%) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,0.15) !important;
+    box-shadow: 0 2px 8px rgba(16,185,129,0.25) !important;
+}
+html[data-theme="dark"] .btn-reject,
+html.dark .btn-reject {
+    background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(239,68,68,0.25) !important;
+}
+html[data-theme="dark"] .btn-approve:hover,
+html[data-theme="dark"] .btn-receive:hover,
+html.dark .btn-approve:hover,
+html.dark .btn-receive:hover { filter: brightness(1.08) !important; }
+html[data-theme="dark"] .view-all-link,
+html.dark .view-all-link {
+    color: #60a5fa !important;
+    opacity: 1 !important;
+}
+
+/* ==========================================================================
+   25. Forms Polish — File, Checkbox, Radio, Select, Textarea, Search
+   ========================================================================== */
+html[data-theme="dark"] input[type="checkbox"],
+html[data-theme="dark"] input[type="radio"],
+html.dark input[type="checkbox"],
+html.dark input[type="radio"] {
+    accent-color: #3b82f6 !important;
+    background-color: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] input[type="file"],
+html.dark input[type="file"] {
+    background: var(--bpis-dark-bg) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    color: #cbd5e1 !important;
+    border-radius: 8px !important;
+    padding: 6px !important;
+}
+html[data-theme="dark"] input[type="file"]::file-selector-button,
+html.dark input[type="file"]::file-selector-button {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+    border-radius: 6px !important;
+    padding: 6px 12px !important;
+    margin-right: 12px !important;
+    cursor: pointer !important;
+}
+html[data-theme="dark"] .search-container input,
+html[data-theme="dark"] .blocklist-search-wrap input,
+html.dark .search-container input,
+html.dark .blocklist-search-wrap input {
+    background-color: var(--bpis-dark-bg) !important;
+    color: #f8fafc !important;
+}
+html[data-theme="dark"] .search-container .search-icon svg,
+html.dark .search-container .search-icon svg {
+    stroke: #64748b !important;
+}
+html[data-theme="dark"] .receive-qty-wrap input,
+html.dark .receive-qty-wrap input {
+    background: var(--bpis-dark-bg) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+html[data-theme="dark"] .receive-qty-wrap label,
+html.dark .receive-qty-wrap label { color: #cbd5e1 !important; }
+html[data-theme="dark"] .flash-banner.success,
+html.dark .flash-banner.success {
+    background: rgba(16,185,129,0.12) !important;
+    border-color: rgba(16,185,129,0.25) !important;
+    color: #6ee7b7 !important;
+}
+html[data-theme="dark"] .flash-banner.error,
+html.dark .flash-banner.error {
+    background: rgba(239,68,68,0.12) !important;
+    border-color: rgba(239,68,68,0.25) !important;
+    color: #fca5a5 !important;
+}
+
+/* ==========================================================================
+   26. Modals & Dropdowns Full Coverage
+   ========================================================================== */
+html[data-theme="dark"] .borrower-card,
+html.dark .borrower-card {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.12) !important;
+}
+html[data-theme="dark"] .borrower-card:hover,
+html.dark .borrower-card:hover {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35) !important;
+}
+html[data-theme="dark"] .borrower-card.is-blocked,
+html.dark .borrower-card.is-blocked {
+    background: rgba(127,29,29,0.22) !important;
+    border-color: rgba(239,68,68,0.35) !important;
+}
+html[data-theme="dark"] .borrower-avatar,
+html.dark .borrower-avatar {
+    border-color: var(--bpis-dark-border) !important;
+    background: var(--bpis-dark-surface-elevated) !important;
+}
+html[data-theme="dark"] .borrower-badge-blocked,
+html.dark .borrower-badge-blocked {
+    background: rgba(239,68,68,0.18) !important;
+    color: #fca5a5 !important;
+    border: 1px solid rgba(239,68,68,0.3) !important;
+}
+html[data-theme="dark"] .borrower-badge-verified,
+html.dark .borrower-badge-verified {
+    background: rgba(16,185,129,0.18) !important;
+    color: #6ee7b7 !important;
+    border: 1px solid rgba(16,185,129,0.3) !important;
+}
+html[data-theme="dark"] .borrower-badge-pending,
+html.dark .borrower-badge-pending {
+    background: rgba(245,158,11,0.18) !important;
+    color: #fde68a !important;
+    border: 1px solid rgba(245,158,11,0.3) !important;
+}
+html[data-theme="dark"] .vetting-pending-card,
+html.dark .vetting-pending-card {
+    background: rgba(245,158,11,0.08) !important;
+    border-color: rgba(245,158,11,0.25) !important;
+}
+html[data-theme="dark"] .vetting-profile-card,
+html.dark .vetting-profile-card {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .btn-block-prefill,
+html.dark .btn-block-prefill {
+    background: #dc2626 !important;
+    color: #fff !important;
+}
+html[data-theme="dark"] .btn-block-prefill:disabled,
+html.dark .btn-block-prefill:disabled {
+    background: #334155 !important;
+    color: #94a3b8 !important;
+}
+/* Confirmation modal */
+html[data-theme="dark"] .confirmation-modal,
+html.dark .confirmation-modal {
+    background: var(--bpis-dark-surface) !important;
+    border-color: var(--bpis-dark-border) !important;
+    color: #f8fafc !important;
+}
+
+/* ==========================================================================
+   27. Sidebar & Navigation Polish — Mobile & Desktop
+   ========================================================================== */
+html[data-theme="dark"] .sidebar,
+html.dark .sidebar {
+    background: var(--bpis-dark-sidebar-bg) !important;
+}
+html[data-theme="dark"] .sidebar h2,
+html.dark .sidebar h2 { color: #f8fafc !important; }
+html[data-theme="dark"] .sidebar-bottom,
+html.dark .sidebar-bottom { color: var(--bpis-dark-text-muted) !important; }
+html[data-theme="dark"] .nav-item,
+html.dark .nav-item {
+    color: #cbd5e1 !important;
+    background: rgba(255,255,255,0.04) !important;
+}
+html[data-theme="dark"] .nav-item i,
+html.dark .nav-item i { color: #94a3b8 !important; }
+html[data-theme="dark"] .nav-item:hover i,
+html.dark .nav-item:hover i { color: #fff !important; }
+html[data-theme="dark"] .nav-item.active i,
+html.dark .nav-item.active i { color: #fff !important; }
+html[data-theme="dark"] .secretary-nav-tabs,
+html.dark .secretary-nav-tabs {
+    border-color: var(--bpis-dark-border) !important;
+}
+
+/* ==========================================================================
+   28. Buttons & Status Badges Comprehensive
+   ========================================================================== */
+html[data-theme="dark"] .borrow-btn,
+html.dark .borrow-btn {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.3) !important;
+}
+html[data-theme="dark"] .borrow-btn--secondary,
+html.dark .borrow-btn--secondary {
+    background: var(--bpis-dark-surface-elevated) !important;
+    color: #cbd5e1 !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .view-toggle button,
+html.dark .view-toggle button {
+    background: #dc2626 !important;
+    color: #ffffff !important;
+    border-color: #dc2626 !important;
+}
+html[data-theme="dark"] .view-toggle button.active,
+html.dark .view-toggle button.active {
+    background: #174C7D !important;
+    color: #ffffff !important;
+    border-color: #174C7D !important;
+}
+html[data-theme="dark"] .view-toggle button:hover:not(.active),
+html.dark .view-toggle button:hover:not(.active) {
+    background: #b91c1c !important;
+    border-color: #b91c1c !important;
+    color: #ffffff !important;
+}
+html[data-theme="dark"] .borrower-list-item,
+html.dark .borrower-list-item,
+body.dark-mode .borrower-list-item {
+    background: var(--bpis-dark-surface) !important;
+    background-color: var(--bpis-dark-surface) !important;
+    border: 1px solid #243656 !important;
+    color: #cbd5e1 !important;
+    box-shadow: 0 2px 10px rgba(59,130,246,0.12) !important;
+}
+html[data-theme="dark"] .borrower-list-item:hover,
+html.dark .borrower-list-item:hover {
+    background: var(--bpis-dark-surface-hover) !important;
+    border-color: #2e4a6e !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35) !important;
+}
+html[data-theme="dark"] .borrower-list-info,
+html[data-theme="dark"] .borrower-list-details,
+html[data-theme="dark"] .borrower-list-item .borrower-card-name,
+html[data-theme="dark"] .borrower-list-item .borrower-card-meta,
+html.dark .borrower-list-info,
+html.dark .borrower-list-details,
+html.dark .borrower-list-item .borrower-card-name,
+html.dark .borrower-list-item .borrower-card-meta {
+    color: #cbd5e1 !important;
+}
+html[data-theme="dark"] .borrower-list-item .borrower-card-name,
+html.dark .borrower-list-item .borrower-card-name {
+    color: #f8fafc !important;
+    font-weight: 700 !important;
+}
+html[data-theme="dark"] .borrower-list-item .borrower-avatar,
+html.dark .borrower-list-item .borrower-avatar {
+    border-color: #243656 !important;
+    background: #1e3a5f !important;
+    color: #f8fafc !important;
+}
+html[data-theme="dark"] .btn-profile-save,
+html.dark .btn-profile-save {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    color: #fff !important;
+}
+/* Status badges — ensure all variants readable */
+html[data-theme="dark"] .status-text,
+html.dark .status-text {
+    padding: 4px 10px !important;
+    border-radius: 999px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.03em !important;
+    border: 1px solid transparent !important;
+}
+html[data-theme="dark"] .status-pending,
+html.dark .status-pending {
+    background: rgba(245,158,11,0.16) !important;
+    color: #fde68a !important;
+    border-color: rgba(245,158,11,0.35) !important;
+}
+html[data-theme="dark"] .status-approved,
+html.dark .status-approved {
+    background: rgba(16,185,129,0.16) !important;
+    color: #6ee7b7 !important;
+    border-color: rgba(16,185,129,0.35) !important;
+}
+html[data-theme="dark"] .status-received,
+html.dark .status-received {
+    background: rgba(59,130,246,0.16) !important;
+    color: #93c5fd !important;
+    border-color: rgba(59,130,246,0.35) !important;
+}
+html[data-theme="dark"] .status-overdue,
+html.dark .status-overdue {
+    background: rgba(239,68,68,0.16) !important;
+    color: #fca5a5 !important;
+    border-color: rgba(239,68,68,0.35) !important;
+}
+/* Additional badges like AVAILABLE / SERVICEABLE etc */
+html[data-theme="dark"] .badge-available,
+html[data-theme="dark"] .badge-serviceable,
+html.dark .badge-available,
+html.dark .badge-serviceable {
+    background: rgba(16,185,129,0.16) !important;
+    color: #6ee7b7 !important;
+    border: 1px solid rgba(16,185,129,0.35) !important;
+}
+html[data-theme="dark"] .badge-notavailable,
+html[data-theme="dark"] .badge-unserviceable,
+html.dark .badge-notavailable,
+html.dark .badge-unserviceable {
+    background: rgba(239,68,68,0.16) !important;
+    color: #fca5a5 !important;
+    border: 1px solid rgba(239,68,68,0.35) !important;
+}
+
+/* ==========================================================================
+   29. Layout Alignment & Responsive Fixes — No Overlap, Consistent Sizing
+   ========================================================================== */
+html[data-theme="dark"] .main-content,
+html.dark .main-content {
+    background: var(--bpis-dark-bg) !important;
+}
+html[data-theme="dark"] .table-scroll,
+html.dark .table-scroll {
+    scrollbar-color: #253759 #eff6ff !important;
+}
+html[data-theme="dark"] .header,
+html.dark .header {
+    backdrop-filter: blur(8px);
+    background: linear-gradient(135deg, #0f1f3d 0%, #13264d 100%) !important;
+    border: 1px solid #243656 !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+}
+html[data-theme="dark"] .header h1,
+html.dark .header h1 {
+    color: #f8fafc !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+}
+
+/* ==========================================================================
+   31. UNIVERSAL BUTTON & LABEL VISIBILITY — Ensures EVERY button text is readable
+   ========================================================================== */
+html[data-theme="dark"] button,
+html[data-theme="dark"] .btn,
+html[data-theme="dark"] input[type="button"],
+html[data-theme="dark"] input[type="submit"],
+html[data-theme="dark"] a.btn,
+html[data-theme="dark"] [class*="btn-"],
+html.dark button,
+html.dark .btn,
+html.dark input[type="button"],
+html.dark input[type="submit"],
+html.dark a.btn,
+html.dark [class*="btn-"] {
+    color: #f8fafc !important;
+}
+html[data-theme="dark"] button span,
+html[data-theme="dark"] .btn span,
+html[data-theme="dark"] [class*="btn-"] span,
+html[data-theme="dark"] button i,
+html[data-theme="dark"] .btn i,
+html.dark button span,
+html.dark .btn span,
+html.dark [class*="btn-"] span,
+html.dark button i,
+html.dark .btn i {
+    color: inherit !important;
+}
+html[data-theme="dark"] button:disabled,
+html[data-theme="dark"] .btn:disabled,
+html.dark button:disabled,
+html.dark .btn:disabled {
+    color: var(--bpis-dark-text-muted) !important;
+    opacity: 0.7 !important;
+    background: #1e293b !important;
+    border-color: #334155 !important;
+}
+/* Specific secondary/outline buttons that were white on white */
+html[data-theme="dark"] .asset-btn-secondary,
+html[data-theme="dark"] .bpis-logout-btn-cancel,
+html[data-theme="dark"] .btn-cancel,
+html[data-theme="dark"] .btn-profile-close-bottom,
+html[data-theme="dark"] .borrow-btn--secondary,
+html[data-theme="dark"] .bpis-edit-bulk-apply-btn,
+html.dark .asset-btn-secondary,
+html.dark .bpis-logout-btn-cancel,
+html.dark .btn-cancel,
+html.dark .btn-profile-close-bottom,
+html.dark .borrow-btn--secondary,
+html.dark .bpis-edit-bulk-apply-btn {
+    background: var(--bpis-dark-surface-elevated) !important;
+    color: #f8fafc !important;
+    border: 1px solid var(--bpis-dark-border) !important;
+}
+html[data-theme="dark"] .asset-btn-secondary:hover,
+html.dark .asset-btn-secondary:hover {
+    background: var(--bpis-dark-surface-hover) !important;
+    color: #fff !important;
+    border-color: #3b82f6 !important;
+}
+/* Ensure form labels are always visible */
+html[data-theme="dark"] label,
+html.dark label,
+html[data-theme="dark"] .bpis-edit-asset-label,
+html.dark .bpis-edit-asset-label,
+html[data-theme="dark"] .profile-field label,
+html.dark .profile-field label,
+html[data-theme="dark"] .reg-label,
+html.dark .reg-label {
+    color: #cbd5e1 !important;
+    opacity: 1 !important;
+}
+/* Placeholder remains muted but visible */
+html[data-theme="dark"] ::placeholder,
+html.dark ::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+html[data-theme="dark"] input::placeholder,
+html.dark input::placeholder,
+html[data-theme="dark"] textarea::placeholder,
+html.dark textarea::placeholder {
+    color: #64748b !important;
+}
+/* Block a borrower form — fix narrow black bars overlapping labels (Image1) */
+html[data-theme="dark"] #blockBorrowerForm,
+html.dark #blockBorrowerForm,
+body.dark-mode #blockBorrowerForm {
+    background: var(--bpis-dark-surface) !important;
+    background-color: var(--bpis-dark-surface) !important;
+    border: 1px solid #243656 !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    display: block !important;
+}
+html[data-theme="dark"] #blockBorrowerForm > div,
+html.dark #blockBorrowerForm > div {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 16px !important;
+}
+html[data-theme="dark"] #blockBorrowerForm label,
+html.dark #blockBorrowerForm label {
+    display: block !important;
+    width: 100% !important;
+    color: #cbd5e1 !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    margin-bottom: 6px !important;
+    float: none !important;
+}
+html[data-theme="dark"] #blockBorrowerForm input,
+html[data-theme="dark"] #blockBorrowerForm textarea,
+html.dark #blockBorrowerForm input,
+html.dark #blockBorrowerForm textarea {
+    background: var(--bpis-dark-surface-elevated) !important;
+    background-color: var(--bpis-dark-surface-elevated) !important;
+    border: 1px solid #243656 !important;
+    color: #f8fafc !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    box-sizing: border-box !important;
+    float: none !important;
+    margin: 0 !important;
+    border-radius: 8px !important;
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+}
+html[data-theme="dark"] #blockBorrowerForm textarea,
+html.dark #blockBorrowerForm textarea {
+    min-height: 80px !important;
+    resize: vertical !important;
+}
+html[data-theme="dark"] #blockBorrowerForm button[type="submit"],
+html.dark #blockBorrowerForm button[type="submit"] {
+    background: #dc2626 !important;
+    background-color: #dc2626 !important;
+    color: #ffffff !important;
+    border: 1px solid #dc2626 !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    width: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 8px !important;
+}
+html[data-theme="dark"] #blockBorrowerForm button[type="submit"]:hover,
+html.dark #blockBorrowerForm button[type="submit"]:hover {
+    background: #b91c1c !important;
+    border-color: #b91c1c !important;
+}
+
+/* ==========================================================================
+   30. Premium Polish — Requests/Dashboard Cards & Tables (Image 1)
+   ========================================================================== */
+html[data-theme="dark"] .cards-container,
+html.dark .cards-container {
+    gap: 16px !important;
+}
+html[data-theme="dark"] .cards-container > .card,
+html.dark .cards-container > .card {
+    background: linear-gradient(160deg, #131d36 0%, #16264d 100%) !important;
+    border: 1px solid #243656 !important;
+    border-top-width: 1px !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+    padding: 18px 20px !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+}
+html[data-theme="dark"] .cards-container > .card::before,
+html.dark .cards-container > .card::before {
+    height: 4px !important;
+    opacity: 1 !important;
+    border-radius: 14px 14px 0 0 !important;
+}
+html[data-theme="dark"] .cards-container > .card:hover,
+html.dark .cards-container > .card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+    border-color: #2e4a6e !important;
+}
+html[data-theme="dark"] .cards-container > .card p,
+html.dark .cards-container > .card p {
+    color: #94a3b8 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    margin-bottom: 10px !important;
+    text-transform: uppercase !important;
+}
+html[data-theme="dark"] .cards-container > .card .card-number,
+html.dark .cards-container > .card .card-number {
+    color: #059669 !important;
+    font-size: 30px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.03em !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+/* Accent top border already vibrant — ensure visible */
+html[data-theme="dark"] .card.card-blue::before,
+html.dark .card.card-blue::before { background: linear-gradient(90deg, #2563eb, #38bdf8) !important; }
+html[data-theme="dark"] .card.card-yellow::before,
+html.dark .card.card-yellow::before { background: linear-gradient(90deg, #d97706, #fbbf24) !important; }
+html[data-theme="dark"] .card.card-green::before,
+html.dark .card.card-green::before { background: linear-gradient(90deg, #059669, #34d399) !important; }
+html[data-theme="dark"] .card.card-red::before,
+html.dark .card.card-red::before { background: linear-gradient(90deg, #dc2626, #f87171) !important; }
+
+/* Pending Requests / Recent Overdue / All borrowers / Block titles — white and same font size as Recent Borrowing Requests (Image2) */
+html[data-theme="dark"] .content-subheader h4,
+html.dark .content-subheader h4,
+html[data-theme="dark"] .table-section h3,
+html.dark .table-section h3,
+html[data-theme="dark"] .blocklist-section-title,
+html.dark .blocklist-section-title,
+html[data-theme="dark"] .blocklist-directory-header h3,
+html.dark .blocklist-directory-header h3 {
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.01em !important;
+}
+html[data-theme="dark"] .borrowers-tab-link,
+html.dark .borrowers-tab-link {
+    color: #cbd5e1 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+html[data-theme="dark"] .borrowers-tab-link.active,
+html.dark .borrowers-tab-link.active {
+    color: #60a5fa !important;
+    border-bottom-color: #60a5fa !important;
+}
+html[data-theme="dark"] .borrowers-tab-link:hover,
+html.dark .borrowers-tab-link:hover {
+    color: #bfdbfe !important;
+    border-bottom-color: #bfdbfe !important;
+    background: transparent !important;
+}
+
+/* Filter + Search toolbar — make it a proper card */
+html[data-theme="dark"] .requests-toolbar,
+html[data-theme="dark"] .bpis-date-filter-bar,
+html.dark .requests-toolbar,
+html.dark .bpis-date-filter-bar {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border: 1px solid #243656 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 12px rgba(59,130,246,0.12) !important;
+    padding: 12px 14px !important;
+}
+html[data-theme="dark"] .bpis-date-filter-bar label,
+html.dark .bpis-date-filter-bar label {
+    color: #94a3b8 !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+}
+html[data-theme="dark"] .bpis-date-filter-bar input[type="date"],
+html.dark .bpis-date-filter-bar input[type="date"] {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border: 1px solid #243656 !important;
+    color: #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+}
+html[data-theme="dark"] .bpis-date-clear-btn,
+html.dark .bpis-date-clear-btn {
+    background: var(--bpis-dark-surface) !important;
+    border: 1px solid #243656 !important;
+    color: #cbd5e1 !important;
+    border-radius: 8px !important;
+    padding: 7px 14px !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+}
+html[data-theme="dark"] .bpis-date-clear-btn:hover,
+html.dark .bpis-date-clear-btn:hover {
+    background: #1e3a5f !important;
+    color: #fff !important;
+    border-color: #3b82f6 !important;
+}
+html[data-theme="dark"] .search-container input,
+html[data-theme="dark"] #searchInput,
+html.dark .search-container input,
+html.dark #searchInput {
+    background: var(--bpis-dark-surface-elevated) !important;
+    border: 1px solid #243656 !important;
+    color: #f8fafc !important;
+    border-radius: 10px !important;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+html[data-theme="dark"] .search-container input::placeholder,
+html.dark .search-container input::placeholder {
+    color: #64748b !important;
+}
+html[data-theme="dark"] .search-container input:focus,
+html.dark .search-container input:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.2) !important;
+}
+
+/* Table polish */
+html[data-theme="dark"] .table-section,
+html.dark .table-section {
+    background: var(--bpis-dark-surface) !important;
+    border: 1px solid #243656 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+    overflow: hidden !important;
+}
+html[data-theme="dark"] .table-section h3,
+html.dark .table-section h3 {
+    color: #f8fafc !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    letter-spacing: -0.01em !important;
+}
+html[data-theme="dark"] .secretary-data-table thead th,
+html[data-theme="dark"] .table-section thead th,
+html.dark .secretary-data-table thead th,
+html.dark .table-section thead th {
+    background: #0f1a33 !important;
+    color: #94a3b8 !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    letter-spacing: 0.06em !important;
+    border-bottom: 1px solid #243656 !important;
+    padding: 12px 10px !important;
+}
+html[data-theme="dark"] .secretary-data-table tbody td,
+html[data-theme="dark"] .table-section tbody td,
+html.dark .secretary-data-table tbody td,
+html.dark .table-section tbody td {
+    color: #cbd5e1 !important;
+    border-bottom: 1px solid #1e2d4a !important;
+    padding: 12px 10px !important;
+    font-size: 13px !important;
+}
+html[data-theme="dark"] .secretary-data-table tbody tr:hover,
+html.dark .secretary-data-table tbody tr:hover {
+    background: var(--bpis-dark-surface-hover) !important;
+}
+html[data-theme="dark"] .secretary-data-table tbody tr:nth-child(even),
+html.dark .secretary-data-table tbody tr:nth-child(even) {
+    background: rgba(255,255,255,0.02) !important;
+}
+/* Valid ID thumbnails */
+html[data-theme="dark"] .secretary-data-table td img,
+html.dark .secretary-data-table td img {
+    border: 1px solid #243656 !important;
+    background: var(--bpis-dark-surface) !important;
+    border-radius: 6px !important;
+}
+/* Action buttons — more pill, more contrast */
+html[data-theme="dark"] .btn-approve,
+html.dark .btn-approve {
+    background: linear-gradient(135deg, #059669, #10b981) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    box-shadow: 0 2px 8px rgba(16,185,129,0.35) !important;
+    border: none !important;
+    padding: 7px 16px !important;
+    border-radius: 999px !important;
+}
+html[data-theme="dark"] .btn-reject,
+html.dark .btn-reject {
+    background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    box-shadow: 0 2px 8px rgba(239,68,68,0.35) !important;
+    border: none !important;
+    padding: 7px 16px !important;
+    border-radius: 999px !important;
+}
+
+/* ==========================================================================
+   13. Print Media Rules (Ensure physical printouts remain white & black)
+   ========================================================================== */
+@media print {
+    html[data-theme="dark"],
+    html.dark,
+    body.dark-mode {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    .sidebar, .header, .bpis-theme-toggle, .borrow-theme-toggle {
+        display: none !important;
+    }
+    table, th, td {
+        border-color: #000000 !important;
+        color: #000000 !important;
+        background: transparent !important;
+    }
+}
+
+/* Final override — card-number consistent Light & Dark — same saturated per-variant */
+html[data-theme="dark"] .cards-container > .card.card-blue .card-number,
+html[data-theme="dark"] body .cards-container > .card.card-blue .card-number,
+html.dark .cards-container > .card.card-blue .card-number,
+body.dark-mode .cards-container > .card.card-blue .card-number {
+    color: #60a5fa !important;
+}
+html[data-theme="dark"] .cards-container > .card.card-yellow .card-number,
+html[data-theme="dark"] body .cards-container > .card.card-yellow .card-number,
+html.dark .cards-container > .card.card-yellow .card-number,
+body.dark-mode .cards-container > .card.card-yellow .card-number {
+    color: #d97706 !important;
+}
+html[data-theme="dark"] .cards-container > .card.card-green .card-number,
+html[data-theme="dark"] body .cards-container > .card.card-green .card-number,
+html.dark .cards-container > .card.card-green .card-number,
+body.dark-mode .cards-container > .card.card-green .card-number {
+    color: #059669 !important;
+}
+html[data-theme="dark"] .cards-container > .card.card-red .card-number,
+html[data-theme="dark"] body .cards-container > .card.card-red .card-number,
+html.dark .cards-container > .card.card-red .card-number,
+body.dark-mode .cards-container > .card.card-red .card-number {
+    color: #f87171 !important;
+}
+
+/* ==========================================================================
+   99. Contrast Corrections — measured, not guessed
+   --------------------------------------------------------------------------
+   Every rule below fixes a text/background pair that failed WCAG AA (4.5:1 for
+   body text, 3:1 for large text) when measured in the browser. They live at the
+   end of the file so they win the cascade over the page-local <style> blocks
+   that introduced the problem, and they resolve through the semantic tokens in
+   section 0 so the values stay in one place.
+
+   99a. Page-local component surfaces that stayed light in dark mode.
+   ========================================================================== */
+html[data-theme="dark"] .stats-card,
+html.dark .stats-card {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+html[data-theme="dark"] .bg-gray-200,
+html[data-theme="dark"] .bg-slate-200,
+html.dark .bg-gray-200,
+html.dark .bg-slate-200 {
+    background-color: var(--bg-elevated) !important;
+}
+html[data-theme="dark"] .bg-blue-50,
+html[data-theme="dark"] .bg-blue-100,
+html.dark .bg-blue-50,
+html.dark .bg-blue-100 {
+    background-color: var(--bg-elevated) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* 99b. Text utilities and component text left too dark for a dark surface. */
+html[data-theme="dark"] .text-slate-600,
+html[data-theme="dark"] .text-slate-700,
+html[data-theme="dark"] .text-slate-800,
+html.dark .text-slate-600,
+html.dark .text-slate-700,
+html.dark .text-slate-800 {
+    color: var(--text-secondary) !important;
+}
+html[data-theme="dark"] .text-blue-600,
+html[data-theme="dark"] .text-blue-700,
+html[data-theme="dark"] .text-blue-800,
+html.dark .text-blue-600,
+html.dark .text-blue-700,
+html.dark .text-blue-800 {
+    color: var(--info-color) !important;
+}
+html[data-theme="dark"] .text-red-500,
+html[data-theme="dark"] .text-red-600,
+html[data-theme="dark"] .text-red-700,
+html[data-theme="dark"] .reg-required,
+html[data-theme="dark"] .borrow-required,
+html[data-theme="dark"] .delete-link,
+html.dark .text-red-500,
+html.dark .text-red-600,
+html.dark .text-red-700,
+html.dark .reg-required,
+html.dark .borrow-required,
+html.dark .delete-link {
+    color: var(--danger-color) !important;
+}
+html[data-theme="dark"] .text-green-600,
+html[data-theme="dark"] .text-green-700,
+html[data-theme="dark"] .text-emerald-600,
+html[data-theme="dark"] .status-item-returned,
+html.dark .text-green-600,
+html.dark .text-green-700,
+html.dark .text-emerald-600,
+html.dark .status-item-returned {
+    color: var(--success-color) !important;
+}
+html[data-theme="dark"] .bpis-valid-id-caption,
+html.dark .bpis-valid-id-caption {
+    color: var(--text-muted) !important;
+}
+/* Treasurer sub-navigation: the active tab sat at #174c7d on the dark shell. */
+html[data-theme="dark"] .nav-link,
+html.dark .nav-link {
+    color: var(--text-secondary) !important;
+}
+html[data-theme="dark"] .nav-link.active,
+html.dark .nav-link.active {
+    color: var(--text-primary) !important;
+}
+/* Register page role picker: light chip that kept its light icon colour. */
+html[data-theme="dark"] .borrow-role-btn,
+html.dark .borrow-role-btn {
+    background: var(--bg-elevated) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+html[data-theme="dark"] .borrow-role-btn .borrow-role-icon,
+html.dark .borrow-role-btn .borrow-role-icon {
+    color: var(--text-primary) !important;
+}
+
+/* ==========================================================================
+   99c. Solid button fills — applied in BOTH themes.
+   White label text on these mid-tone fills measured 2.0–3.6:1. The hue is
+   unchanged; each fill is one shade deeper so the existing white label clears
+   4.5:1. This is the only place the light theme changes.
+   ========================================================================== */
+#openCameraBtn,
+#openHistoryCameraBtn,
+.btn-take-photo {
+    background-color: #15803d !important;   /* was #16a34a — 3.15:1 */
+}
+#exportReportBtn,
+.btn-export-excel {
+    background-color: #1d4ed8 !important;   /* was #3b82f6 — 3.52:1 */
+}
+.btn-edit-custom,
+.edit-asset-btn {
+    background-color: #b45309 !important;   /* was #f59e0b — 2.05:1 */
+}
+.btn-unblock {
+    background-color: #047857 !important;   /* was #10b981 — 2.42:1 */
+}
+
+/* ==========================================================================
+   99d. Page-local component surfaces
+   --------------------------------------------------------------------------
+   These classes are declared in per-page <style> blocks or component
+   stylesheets and had no dark-mode counterpart, so they stayed light while the
+   surrounding shell went dark — the "white card, white text" case. Grouped by
+   role and pointed at the semantic tokens.
+
+   Deliberately NOT listed: status pills and alert boxes (.condition-*,
+   .period-*, .success-msg, .error-msg, .info-msg, .alert-*, badge chips) pair a
+   light tint with dark ink and are readable as they stand — recolouring them
+   would be a redesign, not a contrast fix. The PDF export tables
+   (.rpcppe-pdf-table, .iirup-pdf-table) stay white because they are printed.
+   ========================================================================== */
+
+/* Panels, cards and modal bodies */
+html[data-theme="dark"] .filter-bar,
+html[data-theme="dark"] .asset-list-container,
+html[data-theme="dark"] .asset-list-title,
+html[data-theme="dark"] .captain-user-card,
+html[data-theme="dark"] .current-values-card,
+html[data-theme="dark"] .profile-user-info,
+html[data-theme="dark"] .qr-tag,
+html[data-theme="dark"] .qr-tag-card,
+html[data-theme="dark"] .toast,
+html[data-theme="dark"] .unblock-modal,
+html[data-theme="dark"] .delete-history-modal,
+html[data-theme="dark"] .borrow-camera-modal__panel,
+html[data-theme="dark"] .notification-dropdown,
+html[data-theme="dark"] .bpis-admin-shell,
+html[data-theme="dark"] .bpis-secretary-shell,
+html.dark .filter-bar,
+html.dark .asset-list-container,
+html.dark .asset-list-title,
+html.dark .captain-user-card,
+html.dark .current-values-card,
+html.dark .profile-user-info,
+html.dark .qr-tag,
+html.dark .qr-tag-card,
+html.dark .toast,
+html.dark .unblock-modal,
+html.dark .delete-history-modal,
+html.dark .borrow-camera-modal__panel,
+html.dark .notification-dropdown,
+html.dark .bpis-admin-shell,
+html.dark .bpis-secretary-shell {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Table wrappers and scroll containers */
+html[data-theme="dark"] .asset-table,
+html[data-theme="dark"] .periods-table,
+html[data-theme="dark"] .item-list-table,
+html[data-theme="dark"] .items-pick-table,
+html[data-theme="dark"] .table-responsive-container,
+html[data-theme="dark"] .borrowers-tabs,
+html[data-theme="dark"] .borrowers-table-scroll,
+html[data-theme="dark"] .borrowers-registered-scroll,
+html[data-theme="dark"] .overdue-table-scroll,
+html[data-theme="dark"] .requests-table-scroll,
+html.dark .asset-table,
+html.dark .periods-table,
+html.dark .item-list-table,
+html.dark .items-pick-table,
+html.dark .table-responsive-container,
+html.dark .borrowers-tabs,
+html.dark .borrowers-table-scroll,
+html.dark .borrowers-registered-scroll,
+html.dark .overdue-table-scroll,
+html.dark .requests-table-scroll {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Wells, thumbnails, secondary buttons and other raised bits */
+html[data-theme="dark"] .mode-fields-group,
+html[data-theme="dark"] .notification-header,
+html[data-theme="dark"] .notification-item,
+html[data-theme="dark"] .unread,
+html[data-theme="dark"] .profile-links,
+html[data-theme="dark"] .qr-scan-links,
+html[data-theme="dark"] .profile-avatar-frame,
+html[data-theme="dark"] .bpis-profile-dropdown-avatar,
+html[data-theme="dark"] .bpis-asset-picker-thumb,
+html[data-theme="dark"] .bpis-image-preview-frame,
+html[data-theme="dark"] .bpis-edit-doc-preview-img,
+html[data-theme="dark"] .bpis-delete-asset-footer,
+html[data-theme="dark"] .cell-image,
+html[data-theme="dark"] .btn-delete-cancel,
+html[data-theme="dark"] .btn-profile-crop-cancel,
+html[data-theme="dark"] .borrow-btn--ghost,
+html[data-theme="dark"] .borrow-id-capture__btn--upload,
+html[data-theme="dark"] .borrow-id-capture__preview,
+html[data-theme="dark"] .bpis-mobile-date-picker-actions,
+html[data-theme="dark"] .bpis-mobile-date-picker-nav,
+html[data-theme="dark"] .bpis-mobile-date-picker-close,
+html[data-theme="dark"] .bpis-mobile-calendar-day,
+html.dark .mode-fields-group,
+html.dark .notification-header,
+html.dark .notification-item,
+html.dark .unread,
+html.dark .profile-links,
+html.dark .qr-scan-links,
+html.dark .profile-avatar-frame,
+html.dark .bpis-profile-dropdown-avatar,
+html.dark .bpis-asset-picker-thumb,
+html.dark .bpis-image-preview-frame,
+html.dark .bpis-edit-doc-preview-img,
+html.dark .bpis-delete-asset-footer,
+html.dark .cell-image,
+html.dark .btn-delete-cancel,
+html.dark .btn-profile-crop-cancel,
+html.dark .borrow-btn--ghost,
+html.dark .borrow-id-capture__btn--upload,
+html.dark .borrow-id-capture__preview,
+html.dark .bpis-mobile-date-picker-actions,
+html.dark .bpis-mobile-date-picker-nav,
+html.dark .bpis-mobile-date-picker-close,
+html.dark .bpis-mobile-calendar-day {
+    background: var(--bg-elevated) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Form controls that kept a white/near-white fill */
+html[data-theme="dark"] .audit-input,
+html[data-theme="dark"] .readonly-input,
+html[data-theme="dark"] .bpis-disabled-input,
+html[data-theme="dark"] .borrow-file-input,
+html[data-theme="dark"] .bpis-edit-asset-input,
+html[data-theme="dark"] .is-filled,
+html[data-theme="dark"] .borrow-selected,
+html[data-theme="dark"] .is-selected,
+html.dark .audit-input,
+html.dark .readonly-input,
+html.dark .bpis-disabled-input,
+html.dark .borrow-file-input,
+html.dark .bpis-edit-asset-input,
+html.dark .is-filled,
+html.dark .borrow-selected,
+html.dark .is-selected {
+    background: var(--bg-elevated) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Muted helper text that was still using a light-theme grey */
+html[data-theme="dark"] .reg-optional,
+html[data-theme="dark"] .asset-list-title .text-gray-400,
+html.dark .reg-optional,
+html.dark .asset-list-title .text-gray-400 {
+    color: var(--text-muted) !important;
+}
+
+/* Small white-on-red count badges (3.6:1 before). */
+.bg-red-500,
+.badge-danger {
+    background-color: #c81e1e !important;
+}
+
+/* ==========================================================================
+   99e. Modal / dropdown / toast text
+   --------------------------------------------------------------------------
+   These components are display:none at rest, so their contrast never showed up
+   in a normal page pass. Once revealed they were the worst offenders in the
+   app: modal headings were near-black (#111827) on the dark panel — 1.06:1,
+   effectively invisible. The panels themselves are darkened in 99d; this makes
+   their text follow the tokens too.
+
+   Status chips keep their own colours (see the :not() list), so a green
+   "Serviceable" pill inside a modal still reads as green.
+   ========================================================================== */
+html[data-theme="dark"] .unblock-modal :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html[data-theme="dark"] .delete-history-modal :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html[data-theme="dark"] .borrow-camera-modal__panel :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html[data-theme="dark"] .notification-dropdown :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html[data-theme="dark"] .toast :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html[data-theme="dark"] .filter-bar :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html.dark .unblock-modal :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html.dark .delete-history-modal :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html.dark .borrow-camera-modal__panel :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html.dark .notification-dropdown :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html.dark .toast :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small),
+html.dark .filter-bar :is(h1,h2,h3,h4,h5,h6,p,label,li,dt,dd,span,strong,small) {
+    color: var(--text-primary) !important;
+}
+html[data-theme="dark"] .unblock-modal :is(p,small,.muted),
+html[data-theme="dark"] .delete-history-modal :is(p,small,.muted),
+html[data-theme="dark"] .notification-dropdown :is(p,small,.muted),
+html.dark .unblock-modal :is(p,small,.muted),
+html.dark .delete-history-modal :is(p,small,.muted),
+html.dark .notification-dropdown :is(p,small,.muted) {
+    color: var(--text-secondary) !important;
+}
+/* Status chips inside those panels keep their own meaning colours. */
+html[data-theme="dark"] :is(.unblock-modal,.delete-history-modal,.notification-dropdown,.toast,.filter-bar)
+    :is([class*="badge"],[class*="status"],[class*="condition-"],[class*="period-"],[class*="pill"]),
+html.dark :is(.unblock-modal,.delete-history-modal,.notification-dropdown,.toast,.filter-bar)
+    :is([class*="badge"],[class*="status"],[class*="condition-"],[class*="period-"],[class*="pill"]) {
+    color: revert !important;
+}
+
+/* Shared logout / profile modal, present on every admin page. */
+html[data-theme="dark"] #bpisLogoutDesc,
+html[data-theme="dark"] .bpis-logout-modal p,
+html[data-theme="dark"] .bpis-logout-modal h3,
+html.dark #bpisLogoutDesc,
+html.dark .bpis-logout-modal p,
+html.dark .bpis-logout-modal h3 {
+    color: var(--text-secondary) !important;
+}
+html[data-theme="dark"] .bpis-logout-modal h3,
+html.dark .bpis-logout-modal h3 {
+    color: var(--text-primary) !important;
+}
+
+/* Primary blue action buttons: white on #3b82f6 measured 3.68:1. */
+#confirmLogoutAction,
+#closeGlobalProfileInfo,
+.bg-blue-500 {
+    background-color: #1d4ed8 !important;
+}
+
+/* ==========================================================================
+   99f. Specificity corrections for the shared logout / profile modal
+   --------------------------------------------------------------------------
+   logout_modal.css styles the confirm button as `#logoutOverlay .btn-confirm`
+   (1,1,0), which outranked a plain `#confirmLogoutAction` (1,0,0). Matching
+   that weight here. The modal title is an <h2>, not the <h3> assumed above.
+   ========================================================================== */
+html #logoutOverlay .btn-confirm,
+html .bpis-logout-btn-confirm,
+html #confirmLogoutAction,
+html #closeGlobalProfileInfo {
+    background: #1d4ed8 !important;      /* white label was 3.68:1 on #3b82f6 */
+    background-color: #1d4ed8 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .bpis-logout-modal :is(h1,h2,h3,h4),
+html[data-theme="dark"] #bpisLogoutTitle,
+html[data-theme="dark"] .logout-modal :is(h1,h2,h3,h4),
+html.dark .bpis-logout-modal :is(h1,h2,h3,h4),
+html.dark #bpisLogoutTitle,
+html.dark .logout-modal :is(h1,h2,h3,h4) {
+    color: var(--text-primary) !important;
+}
+html[data-theme="dark"] .bpis-logout-modal p,
+html[data-theme="dark"] #bpisLogoutDesc,
+html[data-theme="dark"] .logout-modal p,
+html.dark .bpis-logout-modal p,
+html.dark #bpisLogoutDesc,
+html.dark .logout-modal p {
+    color: var(--text-secondary) !important;
+}
+
+/* Small hint/helper paragraphs that kept a light-theme slate grey. */
+html[data-theme="dark"] [id$="Hint"],
+html[data-theme="dark"] .field-hint,
+html[data-theme="dark"] .form-hint,
+html[data-theme="dark"] .input-hint,
+html.dark [id$="Hint"],
+html.dark .field-hint,
+html.dark .form-hint,
+html.dark .input-hint {
+    color: var(--text-muted) !important;
+}
+
+/* ==========================================================================
+   99g. Shared logout / profile modal — final specificity
+   --------------------------------------------------------------------------
+   logout_modal.css and a page-local <style> both style these with !important
+   and compound selectors, and the two files load in a different order on
+   different pages. Matching their weight explicitly rather than relying on
+   source order.
+   ========================================================================== */
+html[data-theme="dark"] .logout-modal.bpis-logout-modal h2#bpisLogoutTitle,
+html[data-theme="dark"] .bpis-logout-modal h2#bpisLogoutTitle,
+html[data-theme="dark"] #logoutOverlay h2#bpisLogoutTitle,
+html.dark .logout-modal.bpis-logout-modal h2#bpisLogoutTitle,
+html.dark .bpis-logout-modal h2#bpisLogoutTitle,
+html.dark #logoutOverlay h2#bpisLogoutTitle {
+    color: var(--text-primary) !important;
+}
+html[data-theme="dark"] .logout-modal.bpis-logout-modal p#bpisLogoutDesc,
+html[data-theme="dark"] .bpis-logout-modal p#bpisLogoutDesc,
+html[data-theme="dark"] #logoutOverlay p#bpisLogoutDesc,
+html.dark .logout-modal.bpis-logout-modal p#bpisLogoutDesc,
+html.dark .bpis-logout-modal p#bpisLogoutDesc,
+html.dark #logoutOverlay p#bpisLogoutDesc {
+    color: var(--text-secondary) !important;
+}
+html body .logout-overlay .btn-confirm,
+html body .logout-overlay button#closeGlobalProfileInfo,
+html body .logout-overlay button#confirmLogoutAction,
+html body button#closeGlobalProfileInfo,
+html body button#confirmLogoutAction {
+    background: #1d4ed8 !important;
+    background-color: #1d4ed8 !important;
+    color: #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   The profile-info modal reuses .logout-overlay WITHOUT the #logoutOverlay id,
+   and logout_modal.css targets exactly that case with
+   `.logout-overlay:not(#logoutOverlay) .btn-confirm` — specificity (1,2,0),
+   because :not(#id) contributes an id. Mirroring that selector with one extra
+   element so the darker fill wins; white text on #3b82f6 was 3.68:1.
+   -------------------------------------------------------------------------- */
+html body .logout-overlay:not(#logoutOverlay) .btn-confirm,
+html body .logout-overlay button#closeGlobalProfileInfo.btn-confirm {
+    background: #1d4ed8 !important;
+    background-color: #1d4ed8 !important;
+    color: #ffffff !important;
+}
+
+/* Camera "Stop" control: #94a3b8 on #1e293b was 3.57:1. */
+html[data-theme="dark"] #btnStopCamera,
+html.dark #btnStopCamera {
+    color: var(--text-primary) !important;
+}
+
+/* ==========================================================================
+   99h. Remaining measured failures
+   ========================================================================== */
+/* Profile dropdown: the active item kept its light-blue highlight, so the
+   dark-mode label text sat on it at 1.36:1. */
+html[data-theme="dark"] .bpis-profile-dropdown-item,
+html[data-theme="dark"] .bpis-profile-dropdown-item.active,
+html.dark .bpis-profile-dropdown-item,
+html.dark .bpis-profile-dropdown-item.active {
+    background: var(--bg-elevated) !important;
+    color: var(--text-primary) !important;
+}
+html[data-theme="dark"] .bpis-profile-dropdown-item.active,
+html.dark .bpis-profile-dropdown-item.active {
+    background: var(--bg-hover) !important;
+}
+
+/* Profile photo crop modal: heading was #0f3f69 on the dark panel (1.54:1). */
+html[data-theme="dark"] .profile-crop-modal,
+html[data-theme="dark"] .profile-crop-modal-header,
+html.dark .profile-crop-modal,
+html.dark .profile-crop-modal-header {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+html[data-theme="dark"] .profile-crop-modal :is(h1,h2,h3,h4),
+html[data-theme="dark"] #profileCropTitle,
+html[data-theme="dark"] .profile-crop-modal-header :is(h1,h2,h3,h4),
+html.dark .profile-crop-modal :is(h1,h2,h3,h4),
+html.dark #profileCropTitle,
+html.dark .profile-crop-modal-header :is(h1,h2,h3,h4) {
+    color: var(--text-primary) !important;
+}
+html[data-theme="dark"] .profile-crop-modal p,
+html.dark .profile-crop-modal p {
+    color: var(--text-secondary) !important;
+}
+
+/* Helper / hint text that stayed on the light-theme slate grey (3.51:1). */
+html[data-theme="dark"] .item-helper-text,
+html[data-theme="dark"] .helper-text,
+html[data-theme="dark"] .hint-text,
+html[data-theme="dark"] .profile-photo-hint,
+html.dark .item-helper-text,
+html.dark .helper-text,
+html.dark .hint-text,
+html.dark .profile-photo-hint {
+    color: var(--text-muted) !important;
+}
+
+/* The role chip's icon circle carries its own #e5e7eb fill (auth_flow.css:234),
+   which stayed light behind the dark-mode label colour — 1.18:1. */
+html[data-theme="dark"] .borrow-role-icon,
+html.dark .borrow-role-icon {
+    background: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+}
+html[data-theme="dark"] .borrow-role-btn.is-active .borrow-role-icon,
+html.dark .borrow-role-btn.is-active .borrow-role-icon {
+    background: var(--accent-color) !important;
+    color: #0b1329 !important;
+}
+
+/* ==========================================================================
+   99i. Captain user-management + export controls
+   ========================================================================== */
+/* Muted card text was still on the light-theme slate (3.51:1). */
+html[data-theme="dark"] .captain-users-hint,
+html[data-theme="dark"] .captain-user-card-id,
+html[data-theme="dark"] .captain-user-meta,
+html.dark .captain-users-hint,
+html.dark .captain-user-card-id,
+html.dark .captain-user-meta {
+    color: var(--text-muted) !important;
+}
+/* "Email verified" used the light-theme green (#047857 → 3.05:1 on dark). */
+html[data-theme="dark"] .captain-user-meta.verified,
+html.dark .captain-user-meta.verified {
+    color: var(--success-color) !important;
+}
+
+/* Solid action buttons whose white label was under 4.5:1 in both themes. */
+#exportSummaryBtn,
+a#exportSummaryBtn {
+    background-color: #1d4ed8 !important;   /* was #3b82f6 — 3.68:1 */
+}
+.captain-users-btn-reset {
+    background-color: #b45309 !important;   /* was #d97706 — 3.04:1 */
+}
+
+/* ==========================================================================
+   99j. Light-mode text contrast
+   --------------------------------------------------------------------------
+   Pre-existing failures measured in LIGHT mode. Same hue, one shade deeper, so
+   the layout and look are unchanged but the text clears 4.5:1 on white. The
+   dark-mode rules above are more specific, so these do not affect dark mode.
+
+   Scoped to light mode only, and weighted above the Tailwind Play CDN, which
+   injects its utilities at runtime — after every <link>, so an equal-specificity
+   rule here would lose on source order.
+   ========================================================================== */
+html:not(.dark):not([data-theme="dark"]) body .view-all-link {
+    color: #1d4ed8 !important;   /* was #3b82f6 on white — 3.68:1 */
+}
+html:not(.dark):not([data-theme="dark"]) body .text-gray-400 {
+    color: #6b7280 !important;   /* was #9ca3af on white — 2.54:1 */
+}
+html:not(.dark):not([data-theme="dark"]) body .text-green-600 {
+    color: #15803d !important;   /* was #16a34a on white — 3.30:1 */
+}
+html:not(.dark):not([data-theme="dark"]) body .bpis-edit-asset-label-hint,
+html:not(.dark):not([data-theme="dark"]) body .nav-link.inactive,
+html:not(.dark):not([data-theme="dark"]) body .text-gray-500 {
+    color: #55607a !important;   /* was #94a3b8 on #f8fafc — 2.45:1 */
+}
+html:not(.dark):not([data-theme="dark"]) body .bpis-asset-picker-name,
+html:not(.dark):not([data-theme="dark"]) body .bpis-asset-picker-meta {
+    color: #55607a !important;   /* was #94a3b8 on white — 2.56:1 */
+}
+html:not(.dark):not([data-theme="dark"]) body .text-red-500,
+html:not(.dark):not([data-theme="dark"]) body .delete-link {
+    color: #cf1a1a !important;   /* was #ef4444 on white — 3.76:1 */
+}
+html:not(.dark):not([data-theme="dark"]) body .net-positive {
+    color: #047857 !important;   /* was #059669 on white — 3.77:1 */
+}
+/* Light-mode table headers and section headings that used a grey too pale for
+   their own surface (#888 on #f8fafc = 3.39:1; #94a3b8 on white = 2.56:1). */
+html:not(.dark):not([data-theme="dark"]) body :is(th, thead th, .table-section th) {
+    color: #475569 !important;
+}
+html:not(.dark):not([data-theme="dark"]) body :is(.table-section, .card, .stats-card, .borrowers-tabs) h3,
+html:not(.dark):not([data-theme="dark"]) body .placeholder-text,
+html:not(.dark):not([data-theme="dark"]) body .bpis-asset-picker-empty {
+    color: #475569 !important;
+}
+html:not(.dark):not([data-theme="dark"]) body .profile-photo-hint {
+    color: #55607a !important;   /* was #94a3b8 on white — 2.56:1 */
+}
+/* Cancel button in the unblock modal: blue label on a grey fill (2.04:1). */
+html body .unblock-modal .btn-cancel,
+html body button.btn-cancel {
+    background: #e2e8f0 !important;
+    color: #1e293b !important;
+    border-color: #94a3b8 !important;
+}
+html[data-theme="dark"] body .unblock-modal .btn-cancel,
+html[data-theme="dark"] body button.btn-cancel,
+html.dark body .unblock-modal .btn-cancel,
+html.dark body button.btn-cancel {
+    background: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* ==========================================================================
+   99k. Tailwind alpha-variant background utilities
+   --------------------------------------------------------------------------
+   `bg-gray-50/50` and friends are separate classes from `bg-gray-50`, so the
+   overrides above never touched them. Left alone they lay a 50–80% white wash
+   over the dark surface (composited: rgb(134,140,153)), dropping the muted text
+   on top to 1.32:1. Replaced with a matching translucent *dark* wash so the
+   subtle banding the design intends survives.
+   ========================================================================== */
+html[data-theme="dark"] .bg-gray-50\/50,
+html[data-theme="dark"] .bg-gray-50\/80,
+html[data-theme="dark"] .bg-white\/70,
+html.dark .bg-gray-50\/50,
+html.dark .bg-gray-50\/80,
+html.dark .bg-white\/70 {
+    background-color: rgba(26, 39, 71, 0.75) !important;
+}
+html[data-theme="dark"] .bg-blue-50\/10,
+html[data-theme="dark"] .bg-blue-50\/30,
+html[data-theme="dark"] .bg-blue-50\/50,
+html.dark .bg-blue-50\/10,
+html.dark .bg-blue-50\/30,
+html.dark .bg-blue-50\/50 {
+    background-color: rgba(26, 39, 71, 0.5) !important;
+}

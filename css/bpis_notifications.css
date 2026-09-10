@@ -1,0 +1,402 @@
+.bpis-notif-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    min-height: 38px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    line-height: 0;
+}
+
+.header-icons {
+    align-items: center;
+}
+
+.header-icons .bpis-notif-trigger .icon-box {
+    width: 34px !important;
+    height: 34px !important;
+    max-width: none !important;
+    max-height: none !important;
+}
+
+.header-icons .icon-circle {
+    width: 44px !important;
+    height: 44px !important;
+    max-width: none !important;
+    max-height: none !important;
+}
+
+.bpis-notif-trigger:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+.bpis-notif-badge {
+    position: absolute;
+    top: -4px;
+    left: 23px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    /* Darker red so the 11px white count clears 4.5:1 (#ef4444 only gave 3.6). */
+    background: #c81e1e;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+}
+
+#bpis-notif-portal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.bpis-notif-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.08);
+    pointer-events: auto;
+}
+
+.bpis-notif-backdrop.is-open {
+    display: block;
+}
+
+.bpis-notif-panel {
+    display: none;
+    position: fixed;
+    width: min(320px, calc(100vw - 24px));
+    max-height: min(360px, calc(100vh - 96px));
+    min-height: 120px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
+    pointer-events: auto;
+}
+
+.bpis-notif-panel.is-open {
+    display: block;
+}
+
+.bpis-notif-panel-loading,
+.bpis-notif-panel-empty {
+    padding: 16px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.notif-header-bar {
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.notif-mark-all-read {
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #374151;
+    transition: background 0.15s ease;
+}
+
+.notif-mark-all-read:hover {
+    background: #f8fafc;
+}
+
+.notif-item {
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s ease;
+}
+
+.notif-item--unread {
+    background: #f8fafc;
+}
+
+.notif-item:hover {
+    background: #f1f5f9;
+}
+
+.notif-title {
+    color: #111827;
+}
+
+.notif-message {
+    color: #374151;
+}
+
+.notif-time {
+    color: #9ca3af;
+}
+
+.notif-toggle-read {
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #374151;
+    transition: background 0.15s ease;
+}
+
+.notif-toggle-read:hover {
+    background: #f8fafc;
+}
+
+.notif-rel-chip {
+    color: #1d4ed8;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+}
+
+.notif-ref-text {
+    color: #64748b;
+}
+
+.bpis-notif-toast {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: min(360px, calc(100vw - 24px));
+    padding: 12px 14px;
+    background: #111827;
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    z-index: 10001;
+    font-size: 13px;
+    line-height: 1.45;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.bpis-notif-toast.is-open {
+    display: block;
+}
+
+.bpis-notif-toast-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.bpis-notif-toast-message {
+    opacity: 0.92;
+}
+
+.header-icons {
+    overflow: visible;
+    z-index: 200;
+}
+
+.header {
+    overflow: visible;
+}
+
+.main-content > .header {
+    overflow: visible;
+}
+
+@media (max-width: 1024px) {
+    .bpis-notif-trigger {
+        min-width: 36px !important;
+        min-height: 36px !important;
+    }
+    .header-icons .bpis-notif-trigger .icon-box {
+        width: 32px !important;
+        height: 32px !important;
+    }
+    .header-icons .icon-circle {
+        width: 42px !important;
+        height: 42px !important;
+    }
+    .bpis-notif-panel {
+        width: min(300px, calc(100vw - 20px));
+        max-height: min(340px, calc(100vh - 80px));
+        border-radius: 10px;
+    }
+    .bpis-notif-badge {
+        min-width: 17px;
+        height: 17px;
+        font-size: 10px;
+        padding: 0 4px;
+        left: 22px;
+        top: -3px;
+    }
+    .bpis-notif-toast {
+        max-width: min(340px, calc(100vw - 20px));
+        padding: 10px 12px;
+        font-size: 12px;
+        top: 16px;
+        right: 16px;
+        border-radius: 10px;
+    }
+    .bpis-notif-toast-title {
+        font-size: 12px;
+    }
+    .bpis-notif-toast-message {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .bpis-notif-trigger {
+        min-width: 34px !important;
+        min-height: 34px !important;
+    }
+    .header-icons .bpis-notif-trigger .icon-box {
+        width: 30px !important;
+        height: 30px !important;
+    }
+    .header-icons .icon-circle {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    .bpis-notif-panel {
+        width: min(280px, calc(100vw - 16px));
+        max-height: min(300px, calc(100vh - 70px));
+        min-height: 100px;
+        border-radius: 10px;
+        right: 8px !important;
+        left: auto !important;
+    }
+    .bpis-notif-panel-loading,
+    .bpis-notif-panel-empty {
+        padding: 14px;
+        font-size: 12px;
+    }
+    .bpis-notif-badge {
+        min-width: 16px;
+        height: 16px;
+        font-size: 9px;
+        padding: 0 3px;
+        left: 20px;
+        top: -3px;
+    }
+    .bpis-notif-toast {
+        max-width: min(320px, calc(100vw - 16px));
+        padding: 10px 12px;
+        font-size: 12px;
+        top: 12px;
+        right: 12px;
+        border-radius: 10px;
+    }
+    .bpis-notif-toast-title {
+        font-size: 12px;
+        margin-bottom: 2px;
+    }
+    .bpis-notif-toast-message {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .bpis-notif-trigger {
+        min-width: 32px !important;
+        min-height: 32px !important;
+    }
+    .header-icons .icon-circle {
+        width: 38px !important;
+        height: 38px !important;
+    }
+    .bpis-notif-panel {
+        width: min(260px, calc(100vw - 12px));
+        max-height: min(280px, calc(100vh - 60px));
+        min-height: 80px;
+        border-radius: 8px;
+        right: 4px !important;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+    }
+    .bpis-notif-panel-loading,
+    .bpis-notif-panel-empty {
+        padding: 12px;
+        font-size: 11px;
+    }
+    .bpis-notif-badge {
+        min-width: 15px;
+        height: 15px;
+        font-size: 8px;
+        padding: 0 3px;
+        left: 19px;
+        top: -3px;
+    }
+    .bpis-notif-toast {
+        max-width: min(300px, calc(100vw - 12px));
+        padding: 8px 10px;
+        font-size: 11px;
+        top: 10px;
+        right: 10px;
+        border-radius: 8px;
+    }
+    .bpis-notif-toast-title {
+        font-size: 11px;
+        margin-bottom: 2px;
+    }
+    .bpis-notif-toast-message {
+        font-size: 10px;
+    }
+    .header-icons .bpis-notif-trigger .icon-box {
+        width: 28px !important;
+        height: 28px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .bpis-notif-trigger {
+        min-width: 30px !important;
+        min-height: 30px !important;
+    }
+    .header-icons .icon-circle {
+        width: 36px !important;
+        height: 36px !important;
+    }
+    .bpis-notif-panel {
+        width: min(240px, calc(100vw - 8px));
+        max-height: min(240px, calc(100vh - 50px));
+        min-height: 60px;
+        border-radius: 6px;
+        right: 2px !important;
+    }
+    .bpis-notif-panel-loading,
+    .bpis-notif-panel-empty {
+        padding: 10px;
+        font-size: 10px;
+    }
+    .bpis-notif-badge {
+        min-width: 14px;
+        height: 14px;
+        font-size: 7px;
+        padding: 0 2px;
+        left: 18px;
+        top: -3px;
+    }
+    .bpis-notif-toast {
+        max-width: min(280px, calc(100vw - 8px));
+        padding: 6px 8px;
+        font-size: 10px;
+        top: 8px;
+        right: 8px;
+        border-radius: 6px;
+    }
+    .bpis-notif-toast-title {
+        font-size: 10px;
+    }
+    .bpis-notif-toast-message {
+        font-size: 9px;
+    }
+    .header-icons .bpis-notif-trigger .icon-box {
+        width: 26px !important;
+        height: 26px !important;
+    }
+}

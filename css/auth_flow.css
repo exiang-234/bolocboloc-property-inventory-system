@@ -1,0 +1,716 @@
+body.borrow-flow.borrow-auth-flow {
+    /* Used both as a button fill under white text and as link text on white.
+       #3b82f6 gave 3.68:1 in both directions; #1d4ed8 clears 4.5:1 either way. */
+    --borrow-accent: #1d4ed8;
+    --borrow-accent-hover: #1e3a8a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+body.borrow-flow.borrow-auth-flow .borrow-page {
+    flex: 0 1 auto;
+    width: 100%;
+    margin: 0 auto;
+}
+
+body.borrow-flow.borrow-auth-flow .borrow-card:not(.borrow-card--login-hero) {
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+}
+
+.borrow-page--hero-auth {
+    max-width: 880px;
+}
+
+.borrow-card--login-hero {
+    padding: 0;
+    overflow: hidden;
+    max-height: calc(100dvh - 40px);
+}
+
+.auth-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: stretch;
+    min-height: 420px;
+}
+
+.auth-hero-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 20px;
+    background: linear-gradient(165deg, #dbeafe 0%, #eff6ff 42%, #f8fafc 100%);
+    border-right: 1px solid var(--borrow-border);
+}
+
+.auth-hero-art {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.auth-hero-body {
+    padding: 24px 22px 28px;
+    overflow-y: auto;
+    max-height: calc(100dvh - 40px);
+}
+
+.borrow-top--card {
+    margin-bottom: 20px;
+}
+
+.borrow-top--card .borrow-brand {
+    margin-bottom: 16px;
+}
+
+body.borrow-flow.borrow-auth-flow .borrow-top {
+    text-align: center;
+}
+
+body.borrow-flow.borrow-auth-flow .borrow-brand--auth,
+body.borrow-flow.borrow-auth-flow .borrow-brand {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+body.borrow-flow.borrow-auth-flow .borrow-brand img {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+}
+
+body.borrow-flow.borrow-auth-flow .borrow-brand-text {
+    display: block;
+    max-width: 300px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--borrow-text);
+    letter-spacing: -0.01em;
+}
+
+body.borrow-flow.borrow-auth-flow .borrow-title {
+    text-align: center;
+}
+
+body.borrow-flow.borrow-auth-flow .borrow-lead {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body.borrow-flow.borrow-auth-flow .borrow-step-label,
+body.borrow-flow.borrow-auth-flow .borrow-steps {
+    text-align: left;
+}
+
+.borrow-alert--success {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #047857;
+}
+
+.borrow-alert a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.borrow-hint {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: var(--borrow-muted);
+    line-height: 1.45;
+}
+
+.borrow-password-wrap {
+    position: relative;
+}
+
+.borrow-password-wrap .borrow-input {
+    padding-right: 48px;
+}
+
+.borrow-toggle-pw {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--borrow-muted);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.borrow-toggle-pw:hover {
+    color: var(--borrow-accent);
+}
+
+/* Hide native browser password reveal/clear icons (Edge/IE/Chrome) — prevents duplicate eye next to .borrow-toggle-pw */
+::-ms-reveal,
+::-ms-clear,
+.borrow-input::-ms-reveal,
+.borrow-input::-ms-clear,
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Chrome/Edge/Opera autofill & password reveal buttons */
+.borrow-input::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-contacts-auto-fill-button,
+input[type="password"]::-webkit-strong-password-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-caps-lock-indicator {
+    visibility: hidden !important;
+    display: none !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    right: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+}
+
+.borrow-role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.borrow-role-btn {
+    border: 1px solid var(--borrow-border);
+    background: #f9fafb;
+    color: #374151;
+    border-radius: var(--borrow-radius);
+    padding: 12px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 72px;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.borrow-role-btn:hover {
+    border-color: #93c5fd;
+    background: #eff6ff;
+}
+
+.borrow-role-btn.is-active {
+    border-color: var(--borrow-accent);
+    background: #eff6ff;
+    color: var(--borrow-accent);
+}
+
+.borrow-role-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.borrow-role-btn.is-active .borrow-role-icon {
+    background: #dbeafe;
+}
+
+.borrow-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--borrow-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.borrow-divider::before,
+.borrow-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--borrow-border);
+}
+
+.borrow-google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--borrow-text);
+    text-decoration: none;
+    background: #fff;
+    border: 1px solid var(--borrow-border);
+    border-radius: var(--borrow-radius);
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.borrow-google-btn:hover {
+    background: #f9fafb;
+    border-color: #cbd5e1;
+}
+
+.borrow-google-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.borrow-footer {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--borrow-border);
+    text-align: center;
+    font-size: 14px;
+    color: var(--borrow-muted);
+}
+
+.borrow-footer a {
+    color: var(--borrow-accent);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.borrow-footer a:hover {
+    text-decoration: underline;
+}
+
+.borrow-footer--split {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 16px;
+}
+
+.borrow-input.is-invalid {
+    border-color: #fca5a5;
+    background: #fff8f8;
+}
+
+@media (max-width: 1024px) {
+    body.borrow-flow.borrow-auth-flow .borrow-brand img {
+        width: 80px;
+        height: 80px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-brand-text {
+        font-size: 15px;
+        max-width: 280px;
+    }
+    .auth-hero-art {
+        max-width: 320px;
+    }
+    .auth-hero-panel {
+        padding: 24px 16px;
+    }
+    .auth-hero-body {
+        padding: 20px 18px 24px;
+    }
+}
+
+@media (max-width: 900px) {
+    .auth-hero-inner {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+    .auth-hero-panel {
+        min-height: 180px;
+        padding: 16px 14px;
+        border-right: none;
+        border-bottom: 1px solid var(--borrow-border);
+    }
+    .auth-hero-art {
+        max-width: 220px;
+    }
+    .auth-hero-body {
+        max-height: none;
+        padding: 16px 16px 20px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-card:not(.borrow-card--login-hero) {
+        max-height: calc(100dvh - 30px);
+    }
+    .borrow-card--login-hero {
+        max-height: calc(100dvh - 30px);
+    }
+}
+
+@media (max-width: 768px) {
+    .borrow-page--hero-auth {
+        max-width: 100%;
+        padding: 0 4px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-brand img {
+        width: 68px;
+        height: 68px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-brand-text {
+        font-size: 14px;
+        max-width: 240px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-brand--auth,
+    body.borrow-flow.borrow-auth-flow .borrow-brand {
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    .auth-hero-panel {
+        min-height: 140px;
+        padding: 12px 12px;
+    }
+    .auth-hero-art {
+        max-width: 180px;
+    }
+    .auth-hero-body {
+        padding: 14px 12px 18px;
+    }
+    .borrow-role-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+    .borrow-role-btn {
+        min-height: 60px;
+        padding: 10px 6px;
+        font-size: 11px;
+        border-radius: 8px;
+    }
+    .borrow-role-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+    }
+    .borrow-toggle-pw {
+        min-width: 38px;
+        min-height: 38px;
+    }
+    .borrow-google-btn {
+        min-height: 42px;
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+    .borrow-footer {
+        font-size: 13px;
+        margin-top: 16px;
+        padding-top: 14px;
+    }
+    .borrow-divider {
+        margin: 14px 0 10px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 560px) {
+    body.borrow-flow.borrow-auth-flow .borrow-brand img {
+        width: 56px;
+        height: 56px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-brand-text {
+        font-size: 13px;
+        max-width: 200px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-brand--auth,
+    body.borrow-flow.borrow-auth-flow .borrow-brand {
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-title {
+        font-size: 16px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-lead {
+        font-size: 12px;
+    }
+    .auth-hero-panel {
+        min-height: 100px;
+        padding: 10px 10px;
+    }
+    .auth-hero-art {
+        max-width: 140px;
+    }
+    .auth-hero-body {
+        padding: 10px 10px 14px;
+    }
+    .borrow-role-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+    .borrow-role-btn {
+        min-height: 52px;
+        padding: 8px 6px;
+        font-size: 10px;
+        border-radius: 6px;
+        gap: 4px;
+    }
+    .borrow-role-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+    .borrow-toggle-pw {
+        min-width: 34px;
+        min-height: 34px;
+    }
+    .borrow-toggle-pw svg {
+        width: 16px;
+        height: 16px;
+    }
+    .borrow-google-btn {
+        min-height: 38px;
+        font-size: 12px;
+        padding: 8px 12px;
+        gap: 8px;
+        border-radius: 8px;
+    }
+    .borrow-google-btn img {
+        width: 16px;
+        height: 16px;
+    }
+    .borrow-footer {
+        font-size: 12px;
+        margin-top: 14px;
+        padding-top: 12px;
+    }
+    .borrow-footer--split {
+        gap: 6px 12px;
+    }
+    .borrow-divider {
+        margin: 12px 0 8px;
+        font-size: 10px;
+        gap: 8px;
+    }
+    .borrow-input,
+    .borrow-password-wrap .borrow-input {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+    .borrow-password-wrap .borrow-input {
+        padding-right: 40px;
+    }
+    .borrow-alert {
+        font-size: 12px;
+        padding: 10px 12px;
+    }
+    .borrow-hint {
+        font-size: 11px;
+    }
+    .borrow-btn {
+        min-height: 40px;
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 420px) {
+    body.borrow-flow.borrow-auth-flow .borrow-brand img {
+        width: 48px;
+        height: 48px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-brand-text {
+        font-size: 12px;
+        max-width: 180px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-brand--auth,
+    body.borrow-flow.borrow-auth-flow .borrow-brand {
+        gap: 6px;
+        margin-bottom: 12px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-title {
+        font-size: 15px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-lead {
+        font-size: 11px;
+    }
+    .auth-hero-panel {
+        min-height: 80px;
+        padding: 8px 8px;
+    }
+    .auth-hero-art {
+        max-width: 120px;
+    }
+    .auth-hero-body {
+        padding: 8px 8px 12px;
+    }
+    .borrow-role-grid {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+    .borrow-role-btn {
+        min-height: 44px;
+        padding: 6px 8px;
+        font-size: 10px;
+        flex-direction: row;
+        gap: 8px;
+        border-radius: 6px;
+    }
+    .borrow-role-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 9px;
+    }
+    .borrow-toggle-pw {
+        min-width: 30px;
+        min-height: 30px;
+    }
+    .borrow-toggle-pw svg {
+        width: 14px;
+        height: 14px;
+    }
+    .borrow-google-btn {
+        min-height: 34px;
+        font-size: 11px;
+        padding: 6px 10px;
+        border-radius: 6px;
+    }
+    .borrow-google-btn img {
+        width: 14px;
+        height: 14px;
+    }
+    .borrow-footer {
+        font-size: 11px;
+        margin-top: 12px;
+        padding-top: 10px;
+    }
+    .borrow-divider {
+        margin: 10px 0 6px;
+        font-size: 9px;
+        gap: 6px;
+    }
+    .borrow-input,
+    .borrow-password-wrap .borrow-input {
+        font-size: 13px;
+        padding: 6px 8px;
+        border-radius: 6px;
+    }
+    .borrow-password-wrap .borrow-input {
+        padding-right: 34px;
+    }
+    .borrow-alert {
+        font-size: 11px;
+        padding: 8px 10px;
+        border-radius: 6px;
+    }
+    .borrow-hint {
+        font-size: 10px;
+    }
+    .borrow-btn {
+        min-height: 36px;
+        font-size: 12px;
+        padding: 8px 14px;
+        border-radius: 6px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-card:not(.borrow-card--login-hero) {
+        max-height: calc(100dvh - 20px);
+    }
+    .borrow-card--login-hero {
+        max-height: calc(100dvh - 20px);
+    }
+    .borrow-page--hero-auth {
+        padding: 0 2px;
+    }
+}
+
+@media (max-width: 360px) {
+    body.borrow-flow.borrow-auth-flow .borrow-brand img {
+        width: 40px;
+        height: 40px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-brand-text {
+        font-size: 11px;
+        max-width: 160px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-title {
+        font-size: 14px;
+    }
+    body.borrow-flow.borrow-auth-flow .borrow-lead {
+        font-size: 10px;
+    }
+    .auth-hero-panel {
+        min-height: 60px;
+        padding: 6px 6px;
+    }
+    .auth-hero-art {
+        max-width: 100px;
+    }
+    .auth-hero-body {
+        padding: 6px 6px 10px;
+    }
+    .borrow-role-btn {
+        min-height: 38px;
+        padding: 4px 6px;
+        font-size: 9px;
+        gap: 6px;
+    }
+    .borrow-role-icon {
+        width: 16px;
+        height: 16px;
+        font-size: 8px;
+    }
+    .borrow-toggle-pw {
+        min-width: 26px;
+        min-height: 26px;
+    }
+    .borrow-toggle-pw svg {
+        width: 12px;
+        height: 12px;
+    }
+    .borrow-google-btn {
+        min-height: 30px;
+        font-size: 10px;
+        padding: 4px 8px;
+        gap: 6px;
+    }
+    .borrow-google-btn img {
+        width: 12px;
+        height: 12px;
+    }
+    .borrow-footer {
+        font-size: 10px;
+        margin-top: 10px;
+        padding-top: 8px;
+    }
+    .borrow-input,
+    .borrow-password-wrap .borrow-input {
+        font-size: 12px;
+        padding: 5px 6px;
+    }
+    .borrow-password-wrap .borrow-input {
+        padding-right: 28px;
+    }
+    .borrow-btn {
+        min-height: 32px;
+        font-size: 11px;
+        padding: 6px 12px;
+    }
+}

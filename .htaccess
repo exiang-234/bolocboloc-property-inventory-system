@@ -1,0 +1,24 @@
+# BPIS — Apache hardening.
+# Requires "AllowOverride All" for this directory (the XAMPP default for htdocs).
+
+# Serve index.php for the folder root, and never fall back to a directory listing.
+DirectoryIndex index.php index.html
+Options -Indexes
+
+# Nothing under these folders is meant to be requested directly: config/ holds
+# database and mail settings, database/ holds migrations, and src/ is the
+# bundled PHPMailer library. tools/ is deliberately NOT listed — it holds
+# backfill_asset_units.php, which is an auth-gated page the Treasurer runs from
+# the browser; the diagnostic scripts beside it are CLI-only via _cli_only.php.
+RedirectMatch 404 ^/(.*/)?(config|database|src)/
+
+# Hide dotfiles and editor/backup leftovers.
+<FilesMatch "^\.|\.(bak|old|orig|save|sql|log|md)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "same-origin"
+</IfModule>

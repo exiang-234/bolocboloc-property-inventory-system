@@ -1,0 +1,504 @@
+.captain-users-flash {
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.captain-users-flash.ok {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+}
+
+.captain-users-flash.err {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.captain-users-create {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.captain-users-create h2,
+.captain-users-list h2 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f3f69;
+}
+
+.captain-users-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 16px;
+}
+
+.captain-users-form-grid label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.captain-users-form-grid input,
+.captain-users-form-grid select {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 14px;
+}
+
+.captain-users-form-grid .span-2 {
+    grid-column: 1 / -1;
+}
+
+.captain-users-hint {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.captain-users-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.captain-users-btn-primary {
+    background: #2563eb;
+    color: #fff;
+}
+
+.captain-users-btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.captain-users-btn-save {
+    background: #0f3f69;
+    color: #fff;
+}
+
+.captain-users-btn-reset {
+    background: #d97706;
+    color: #fff;
+}
+
+.captain-users-btn-delete {
+    background: #dc2626;
+    color: #fff;
+}
+
+.captain-user-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+    background: #fff;
+}
+
+.captain-user-card:last-child {
+    margin-bottom: 0;
+}
+
+.captain-user-card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.captain-user-card-id {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.captain-user-role-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.captain-user-role-badge.super {
+    background: #0f3f69;
+    color: #fff;
+}
+
+.captain-user-edit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
+    margin-bottom: 12px;
+}
+
+.captain-user-edit-grid label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.captain-user-edit-grid input,
+.captain-user-edit-grid select {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+}
+
+.captain-user-edit-grid .span-2 {
+    grid-column: 1 / -1;
+}
+
+.captain-user-meta {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.captain-user-meta.verified {
+    color: #047857;
+}
+
+.captain-user-meta.unverified {
+    color: #b45309;
+}
+
+.captain-user-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-end;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.captain-user-reset-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    flex: 1;
+    min-width: 200px;
+}
+
+.captain-user-reset-form input {
+    flex: 1;
+    min-width: 140px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+}
+
+.captain-users-empty {
+    text-align: center;
+    padding: 32px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+@media (max-width: 1024px) {
+    .captain-users-create {
+        padding: 16px;
+        margin-bottom: 20px;
+    }
+    .captain-users-form-grid {
+        gap: 12px 14px;
+    }
+    .captain-users-form-grid input,
+    .captain-users-form-grid select {
+        padding: 8px 10px;
+        font-size: 13px;
+        border-radius: 6px;
+    }
+    .captain-user-edit-grid {
+        gap: 10px 14px;
+    }
+    .captain-user-edit-grid input,
+    .captain-user-edit-grid select {
+        padding: 7px 9px;
+        font-size: 13px;
+    }
+    .captain-users-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+        border-radius: 6px;
+    }
+    .captain-user-card {
+        padding: 14px;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .captain-users-form-grid,
+    .captain-user-edit-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .captain-users-form-grid .span-2,
+    .captain-user-edit-grid .span-2 {
+        grid-column: 1;
+    }
+    .captain-users-create {
+        padding: 14px;
+        margin-bottom: 16px;
+        border-radius: 10px;
+    }
+    .captain-users-create h2,
+    .captain-users-list h2 {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    .captain-users-form-grid label {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+    .captain-users-form-grid input,
+    .captain-users-form-grid select {
+        padding: 7px 9px;
+        font-size: 13px;
+        border-radius: 6px;
+    }
+    .captain-user-edit-grid label {
+        font-size: 11px;
+        margin-bottom: 3px;
+    }
+    .captain-user-edit-grid input,
+    .captain-user-edit-grid select {
+        padding: 6px 8px;
+        font-size: 13px;
+        border-radius: 6px;
+    }
+    .captain-user-card {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+    .captain-user-card-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+    }
+    .captain-user-role-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+    .captain-user-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding-top: 10px;
+    }
+    .captain-user-reset-form {
+        flex-direction: column;
+        align-items: stretch;
+        min-width: unset;
+    }
+    .captain-user-reset-form input {
+        min-width: unset;
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+    .captain-users-btn {
+        padding: 7px 12px;
+        font-size: 12px;
+        border-radius: 6px;
+        justify-content: center;
+    }
+    .captain-users-flash {
+        font-size: 13px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+    .captain-users-hint {
+        font-size: 11px;
+    }
+    .captain-user-meta {
+        font-size: 11px;
+    }
+    .captain-users-empty {
+        padding: 24px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .captain-users-create {
+        padding: 10px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+    }
+    .captain-users-create h2,
+    .captain-users-list h2 {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    .captain-users-form-grid {
+        gap: 8px;
+    }
+    .captain-users-form-grid label {
+        font-size: 11px;
+        margin-bottom: 3px;
+    }
+    .captain-users-form-grid input,
+    .captain-users-form-grid select {
+        padding: 6px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+    }
+    .captain-user-edit-grid {
+        gap: 8px;
+    }
+    .captain-user-edit-grid label {
+        font-size: 10px;
+    }
+    .captain-user-edit-grid input,
+    .captain-user-edit-grid select {
+        padding: 5px 7px;
+        font-size: 12px;
+        border-radius: 4px;
+    }
+    .captain-user-card {
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+    }
+    .captain-user-card-head {
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+    }
+    .captain-user-card-id {
+        font-size: 10px;
+    }
+    .captain-user-role-badge {
+        font-size: 9px;
+        padding: 2px 6px;
+    }
+    .captain-user-actions {
+        gap: 6px;
+        padding-top: 8px;
+    }
+    .captain-user-reset-form input {
+        padding: 5px 6px;
+        font-size: 12px;
+        border-radius: 4px;
+    }
+    .captain-users-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+        gap: 4px;
+        border-radius: 4px;
+    }
+    .captain-users-flash {
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+    .captain-users-hint {
+        font-size: 10px;
+    }
+    .captain-user-meta {
+        font-size: 10px;
+    }
+    .captain-users-empty {
+        padding: 16px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .captain-users-create {
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+    .captain-users-create h2,
+    .captain-users-list h2 {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+    .captain-users-form-grid {
+        gap: 6px;
+    }
+    .captain-users-form-grid label {
+        font-size: 10px;
+    }
+    .captain-users-form-grid input,
+    .captain-users-form-grid select {
+        padding: 5px 6px;
+        font-size: 11px;
+        border-radius: 3px;
+    }
+    .captain-user-edit-grid {
+        gap: 6px;
+    }
+    .captain-user-edit-grid label {
+        font-size: 9px;
+    }
+    .captain-user-edit-grid input,
+    .captain-user-edit-grid select {
+        padding: 4px 5px;
+        font-size: 11px;
+    }
+    .captain-user-card {
+        padding: 8px;
+        border-radius: 4px;
+    }
+    .captain-user-card-id {
+        font-size: 9px;
+    }
+    .captain-user-role-badge {
+        font-size: 8px;
+        padding: 2px 5px;
+    }
+    .captain-users-btn {
+        padding: 5px 8px;
+        font-size: 10px;
+    }
+    .captain-users-flash {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+    .captain-users-hint {
+        font-size: 9px;
+    }
+    .captain-user-meta {
+        font-size: 9px;
+    }
+    .captain-users-empty {
+        padding: 12px;
+        font-size: 11px;
+    }
+}

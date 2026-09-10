@@ -1,0 +1,642 @@
+.bpis-date-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 18px;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.bpis-date-filter-bar .bpis-date-filter-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-right: 4px;
+}
+
+.bpis-date-filter-bar label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.bpis-date-filter-bar input[type="date"] {
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #fff;
+}
+
+.bpis-date-filter-bar input[type="date"]::-webkit-calendar-picker-indicator {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin-left: 4px;
+    cursor: pointer;
+}
+
+.bpis-date-filter-bar input[type="date"]:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.bpis-date-clear-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.bpis-date-clear-btn:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.bpis-mobile-date-picker {
+    display: none;
+}
+
+body.bpis-date-picker-open {
+    overflow: hidden;
+}
+
+.bpis-mobile-date-picker.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    padding: 16px;
+}
+
+.bpis-mobile-date-picker-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.48);
+}
+
+.bpis-mobile-date-picker-modal {
+    position: relative;
+    width: min(92vw, 330px);
+    max-height: calc(100vh - 32px);
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #dbe4ef;
+    border-radius: 14px;
+    box-shadow: 0 18px 48px rgba(15, 23, 42, 0.28);
+    color: #0f172a;
+}
+
+.bpis-mobile-date-picker-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 14px 10px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.bpis-mobile-date-picker-head p {
+    margin: 0 0 3px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.bpis-mobile-date-picker-head h3 {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.bpis-mobile-date-picker-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 8px;
+    background: #f1f5f9;
+    color: #334155;
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.bpis-mobile-date-picker-nav {
+    display: grid;
+    grid-template-columns: 38px 1fr 38px;
+    gap: 8px;
+    padding: 12px 14px 8px;
+}
+
+.bpis-mobile-date-picker-nav button,
+.bpis-mobile-date-picker-actions button {
+    min-height: 34px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #fff;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.bpis-mobile-date-picker-nav button[data-bpis-calendar-today] {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+
+.bpis-mobile-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    padding: 6px 14px 14px;
+}
+
+.bpis-mobile-calendar-weekday,
+.bpis-mobile-calendar-empty,
+.bpis-mobile-calendar-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    min-width: 0;
+}
+
+.bpis-mobile-calendar-weekday {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.bpis-mobile-calendar-day {
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.bpis-mobile-calendar-day.today {
+    border-color: #93c5fd;
+    color: #1d4ed8;
+}
+
+.bpis-mobile-calendar-day.selected {
+    background: #174c7d;
+    border-color: #174c7d;
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(23, 76, 125, 0.22);
+}
+
+.bpis-mobile-date-picker-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 10px 14px 14px;
+    border-top: 1px solid #e5e7eb;
+    background: #f8fafc;
+}
+
+@media (max-width: 1024px) {
+    .bpis-date-filter-bar {
+        gap: 10px 14px;
+        padding: 10px 12px;
+        border-radius: 8px;
+    }
+    .bpis-date-filter-bar .bpis-date-filter-label {
+        font-size: 12px;
+    }
+    .bpis-date-filter-bar label {
+        font-size: 12px;
+        gap: 6px;
+    }
+    .bpis-date-filter-bar input[type="date"] {
+        padding: 6px 8px;
+        font-size: 13px;
+        border-radius: 6px;
+    }
+    .bpis-date-clear-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    body.bpis-date-picker-open {
+        overflow: hidden !important;
+    }
+
+    .bpis-date-filter-bar {
+        gap: 8px 12px;
+        padding: 10px 10px;
+        border-radius: 8px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .bpis-date-filter-bar .bpis-date-filter-label {
+        font-size: 12px;
+        margin-right: 0;
+    }
+    .bpis-date-filter-bar label {
+        font-size: 12px;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .bpis-date-filter-bar label:has(input[type="date"]) {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+    }
+    .bpis-date-filter-bar label:has(input[type="date"]) span {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        color: #64748b;
+        flex: 0 0 auto;
+    }
+    .bpis-date-filter-bar input[type="date"] {
+        padding: 5px 7px;
+        font-size: 12px;
+        border-radius: 6px;
+        width: min(52vw, 170px);
+        min-height: 34px;
+        flex: 0 0 auto;
+    }
+    .bpis-date-filter-bar input[type="date"]::-webkit-calendar-picker-indicator {
+        width: 15px;
+        height: 15px;
+        margin-left: 2px;
+    }
+    .bpis-date-clear-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 6px;
+        width: 100%;
+        text-align: center;
+        margin-top: 4px;
+    }
+
+    .bpis-mobile-date-picker.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        inset: 0;
+        z-index: 3000;
+        padding: 16px;
+    }
+
+    .bpis-mobile-date-picker-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.48);
+    }
+
+    .bpis-mobile-date-picker-modal {
+        position: relative;
+        width: min(92vw, 330px);
+        max-height: calc(100vh - 32px);
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #dbe4ef;
+        border-radius: 14px;
+        box-shadow: 0 18px 48px rgba(15, 23, 42, 0.28);
+        color: #0f172a;
+    }
+
+    .bpis-mobile-date-picker-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 14px 10px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .bpis-mobile-date-picker-head p {
+        margin: 0 0 3px;
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .bpis-mobile-date-picker-head h3 {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.2;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .bpis-mobile-date-picker-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border: 0;
+        border-radius: 8px;
+        background: #f1f5f9;
+        color: #334155;
+        cursor: pointer;
+        font-size: 22px;
+        line-height: 1;
+    }
+
+    .bpis-mobile-date-picker-nav {
+        display: grid;
+        grid-template-columns: 38px 1fr 38px;
+        gap: 8px;
+        padding: 12px 14px 8px;
+    }
+
+    .bpis-mobile-date-picker-nav button,
+    .bpis-mobile-date-picker-actions button {
+        min-height: 34px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #fff;
+        color: #334155;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .bpis-mobile-date-picker-nav button[data-bpis-calendar-today] {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        color: #1d4ed8;
+    }
+
+    .bpis-mobile-calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        padding: 6px 14px 14px;
+    }
+
+    .bpis-mobile-calendar-weekday,
+    .bpis-mobile-calendar-empty,
+    .bpis-mobile-calendar-day {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1;
+        min-width: 0;
+    }
+
+    .bpis-mobile-calendar-weekday {
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .bpis-mobile-calendar-day {
+        border: 1px solid transparent;
+        border-radius: 8px;
+        background: #f8fafc;
+        color: #0f172a;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .bpis-mobile-calendar-day.today {
+        border-color: #93c5fd;
+        color: #1d4ed8;
+    }
+
+    .bpis-mobile-calendar-day.selected {
+        background: #174c7d;
+        border-color: #174c7d;
+        color: #fff;
+        box-shadow: 0 8px 18px rgba(23, 76, 125, 0.22);
+    }
+
+    .bpis-mobile-date-picker-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 10px 14px 14px;
+        border-top: 1px solid #e5e7eb;
+        background: #f8fafc;
+    }
+}
+
+@media (max-width: 480px) {
+    .bpis-date-filter-bar {
+        gap: 6px 10px;
+        padding: 8px 8px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+    .bpis-date-filter-bar .bpis-date-filter-label {
+        font-size: 11px;
+        margin-right: 0;
+        width: 100%;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .bpis-date-filter-bar label {
+        font-size: 11px;
+        gap: 4px;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .bpis-date-filter-bar label:has(input[type="date"]) {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
+    }
+    .bpis-date-filter-bar label:has(input[type="date"]) span {
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
+        color: #64748b;
+    }
+    .bpis-date-filter-bar input[type="date"] {
+        padding: 4px 6px;
+        font-size: 11px;
+        border-radius: 4px;
+        width: min(56vw, 150px);
+        min-height: 30px;
+    }
+    .bpis-date-filter-bar input[type="date"]::-webkit-calendar-picker-indicator {
+        width: 13px;
+        height: 13px;
+        margin-left: 1px;
+    }
+    .bpis-date-clear-btn {
+        padding: 5px 10px;
+        font-size: 11px;
+        border-radius: 4px;
+        width: 100%;
+        text-align: center;
+        margin-top: 2px;
+        min-height: 34px;
+    }
+
+    .bpis-mobile-date-picker.active {
+        padding: 10px;
+    }
+
+    .bpis-mobile-date-picker-modal {
+        width: min(94vw, 300px);
+        border-radius: 12px;
+    }
+
+    .bpis-mobile-date-picker-head {
+        padding: 12px 12px 8px;
+    }
+
+    .bpis-mobile-date-picker-head h3 {
+        font-size: 15px;
+    }
+
+    .bpis-mobile-date-picker-head p {
+        font-size: 10px;
+    }
+
+    .bpis-mobile-date-picker-close {
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+    }
+
+    .bpis-mobile-date-picker-nav {
+        grid-template-columns: 34px 1fr 34px;
+        gap: 6px;
+        padding: 10px 12px 6px;
+    }
+
+    .bpis-mobile-date-picker-nav button,
+    .bpis-mobile-date-picker-actions button {
+        min-height: 32px;
+        border-radius: 7px;
+        font-size: 11px;
+    }
+
+    .bpis-mobile-calendar-grid {
+        gap: 4px;
+        padding: 5px 12px 12px;
+    }
+
+    .bpis-mobile-calendar-weekday {
+        font-size: 9px;
+    }
+
+    .bpis-mobile-calendar-day {
+        border-radius: 7px;
+        font-size: 11px;
+    }
+
+    .bpis-mobile-date-picker-actions {
+        padding: 9px 12px 12px;
+        gap: 7px;
+    }
+}
+
+@media (max-width: 360px) {
+    .bpis-date-filter-bar {
+        gap: 4px 8px;
+        padding: 6px 6px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+    .bpis-date-filter-bar .bpis-date-filter-label {
+        font-size: 10px;
+        padding-bottom: 3px;
+    }
+    .bpis-date-filter-bar label {
+        font-size: 10px;
+        gap: 3px;
+    }
+    .bpis-date-filter-bar label:has(input[type="date"]) {
+        gap: 5px;
+    }
+    .bpis-date-filter-bar label:has(input[type="date"]) span {
+        font-size: 9px;
+    }
+    .bpis-date-filter-bar input[type="date"] {
+        padding: 4px 5px;
+        font-size: 10px;
+        border-radius: 3px;
+        width: min(58vw, 136px);
+        min-height: 28px;
+    }
+    .bpis-date-filter-bar input[type="date"]::-webkit-calendar-picker-indicator {
+        width: 12px;
+        height: 12px;
+        margin-left: 0;
+    }
+    .bpis-date-clear-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+        border-radius: 3px;
+        min-height: 28px;
+    }
+
+    .bpis-mobile-date-picker-modal {
+        width: min(95vw, 280px);
+    }
+
+    .bpis-mobile-date-picker-head {
+        padding: 10px 10px 7px;
+    }
+
+    .bpis-mobile-date-picker-head h3 {
+        font-size: 14px;
+    }
+
+    .bpis-mobile-date-picker-nav {
+        grid-template-columns: 32px 1fr 32px;
+        padding: 8px 10px 5px;
+    }
+
+    .bpis-mobile-calendar-grid {
+        gap: 3px;
+        padding: 4px 10px 10px;
+    }
+
+    .bpis-mobile-calendar-day {
+        border-radius: 6px;
+        font-size: 10px;
+    }
+
+    .bpis-mobile-date-picker-actions {
+        padding: 8px 10px 10px;
+    }
+}

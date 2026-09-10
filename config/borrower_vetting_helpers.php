@@ -175,13 +175,13 @@ if (!function_exists('bpis_resolve_profile_id_from_request')) {
         }
 
         $cols = ['id', 'full_name', 'email'];
-        $addr = bpis_borrowing_request_address_column($conn);
-        $contact = bpis_borrowing_request_contact_column($conn);
-        if ($contact) {
-            $cols[] = $contact;
+        $addr_col = bpis_borrowing_request_address_column($conn);
+        $contact_col = bpis_borrowing_request_contact_column($conn);
+        if ($contact_col !== null) {
+            $cols[] = $contact_col;
         }
-        if ($addr) {
-            $cols[] = $addr;
+        if ($addr_col !== null) {
+            $cols[] = $addr_col;
         }
         if (bpis_column_exists($conn, 'borrowing_requests', 'borrower_profile_id')) {
             $cols[] = 'borrower_profile_id';
@@ -211,8 +211,8 @@ if (!function_exists('bpis_resolve_profile_id_from_request')) {
             return 0;
         }
 
-        $contact_val = $contact_col ? trim((string) ($row[$contact_col] ?? '')) : '';
-        $purok_val = $addr_col ? trim((string) ($row[$addr_col] ?? '')) : '';
+        $contact_val = ($contact_col !== null && isset($row[$contact_col])) ? trim((string) $row[$contact_col]) : '';
+        $purok_val = ($addr_col !== null && isset($row[$addr_col])) ? trim((string) $row[$addr_col]) : '';
         $pid = bpis_upsert_borrower_profile($conn, $name, $email, $purok_val, $contact_val);
 
         if ($pid > 0 && bpis_column_exists($conn, 'borrowing_requests', 'borrower_profile_id')) {

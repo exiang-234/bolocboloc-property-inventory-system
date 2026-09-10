@@ -201,7 +201,8 @@ if (!function_exists('bpis_create_asset_units_for_asset')) {
         string $model,
         string $location,
         ?array $files = null,
-        ?string $default_photo_path = null
+        ?string $default_photo_path = null,
+        ?array $unit_photo_paths = null
     ): void {
         if ($asset_id <= 0 || !bpis_table_exists($conn, 'asset_units')) {
             return;
@@ -228,9 +229,11 @@ if (!function_exists('bpis_create_asset_units_for_asset')) {
         for ($i = 1; $i <= $quantity; $i++) {
             $tag = $prefix . '-' . str_pad((string) $i, 3, '0', STR_PAD_LEFT);
             $photo_path = null;
+            $idx = $i - 1;
 
-            if ($files && isset($files['tmp_name']) && is_array($files['tmp_name'])) {
-                $idx = $i - 1;
+            if ($unit_photo_paths && !empty($unit_photo_paths[$idx]) && is_string($unit_photo_paths[$idx])) {
+                $photo_path = trim($unit_photo_paths[$idx]);
+            } elseif ($files && isset($files['tmp_name']) && is_array($files['tmp_name'])) {
                 if (!empty($files['tmp_name'][$idx]) && is_uploaded_file($files['tmp_name'][$idx])) {
                     $single = [
                         'name' => $files['name'][$idx] ?? '',
